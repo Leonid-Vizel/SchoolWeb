@@ -8,6 +8,11 @@ html {
   }
 }
 
+hr {
+    margin: 3px;
+}
+
+
 html {
   position: relative;
   min-height: 100%;
