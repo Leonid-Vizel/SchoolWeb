@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SchoolWeb.Models;
 
 namespace SchoolWeb.Controllers
 {
@@ -31,7 +32,76 @@ namespace SchoolWeb.Controllers
 
         public IActionResult Graduates()
         {
-            return View();
+            var temp = new List<EgeResult>();
+            temp.Add(new EgeResult()
+            {
+                Year = 2012,
+                Russian = 82.04F,
+                MathBase = 0F,
+                MathProfi = 59F,
+                History = 53.5F,
+                SocialStudies = 64F,
+                Physics = 69.4F,
+                Chemistry = 71F,
+                Geography = 0F,
+                Biology = 83.5F,
+                Informatics = 97F,
+                English = 0F,
+                Literature = 0F,
+            });
+            temp.Add(new EgeResult()
+            {
+                Year = 2013,
+                Russian = 82.04F,
+                MathBase = 0F,
+                MathProfi = 59F,
+                History = 53.5F,
+                SocialStudies = 64F,
+                Physics = 69.4F,
+                Chemistry = 71F,
+                Geography = 0F,
+                Biology = 83.5F,
+                Informatics = 97F,
+                English = 0F,
+                Literature = 0F,
+            });
+            temp.Add(new EgeResult()
+            {
+                Year = 2014,
+                Russian = 82.04F,
+                MathBase = 0F,
+                MathProfi = 59F,
+                History = 53.5F,
+                SocialStudies = 64F,
+                Physics = 69.4F,
+                Chemistry = 71F,
+                Geography = 0F,
+                Biology = 83.5F,
+                Informatics = 97F,
+                English = 0F,
+                Literature = 0F,
+            });
+            temp.Add(new EgeResult()
+            {
+                Year = 2015,
+                Russian = 82.04F,
+                MathBase = 0F,
+                MathProfi = 59F,
+                History = 53.5F,
+                SocialStudies = 64F,
+                Physics = 69.4F,
+                Chemistry = 71F,
+                Geography = 0F,
+                Biology = 83.5F,
+                Informatics = 97F,
+                English = 0F,
+                Literature = 0F,
+            });
+            TotalResults results = new TotalResults()
+            {
+                Ege = temp
+            };
+            return View(results);
         }
 
         public IActionResult Additional()

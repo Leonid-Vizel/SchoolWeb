@@ -1,4 +1,7 @@
-﻿@{
+﻿@using System.Reflection
+@using SchoolWeb.Attributes
+@model TotalResults
+@{
     ViewData["Title"] = "Выпускники";
 }
 
@@ -7,13 +10,49 @@
 <hr />
 
 <p>
-    Наши  выпускники  могут  поступать  в  любой  институт  или  университет  России.
-    Те,  кто  хочет  продолжить  свое  образование  за  рубежом,  могут  поступить  в  университеты
-    Западной  Европы  и  Америки.
+    Наши выпускники могут поступать в любой институт или университет России.
+    Те, кто хочет продолжить свое образование за рубежом, могут поступить в университеты
+    Западной Европы и Америки.
 </p>
 <p>
-    Высокие  баллы (90 – 100 баллов),  набранные  на  едином  государственном
-    экзамене,   позволяют выпускникам  школы  «Елена-Сервис»  получить  приглашение  на  зачисление  в число
-    студентов  одновременно  из  2 – 3 – 4 х  вузов.  Это  дает  дополнительную  возможность  выбора.
+    Высокие баллы (<b>90 – 100</b>), набранные на едином государственном
+    экзамене, позволяют выпускникам школы «Елена-Сервис» получить приглашение
+    на зачисление сразу из нескольких вузов, что дает возможность выбора.
 </p>
-<p>Все  выпускники  школы  на  сегодняшний  день  стали  студентами  высших  учебных  заведений.</p>
+<h2 class="text-left">ЕГЭ (Средний балл)</h2>
+<table class="table-bordered" cellspacing="0" cellpadding="2" width="100%">
+    <tbody>
+        <tr>
+            <td><font size="+1"><b>Предмет / Год</b></font></td>
+            @foreach (EgeResult result in Model.Ege)
+            {
+                <td><div align="center"><b>@result.Year</b></div></td>
+            }
+        </tr>
+
+        @foreach (PropertyInfo info in typeof(EgeResult).GetProperties())
+        {
+            <tr>
+                @{
+                    ResultAttribute attributeInfo = info.GetCustomAttribute(typeof(ResultAttribute)) as ResultAttribute;
+                    if (attributeInfo != null)
+                    {
+                        <td><font size="+1">@attributeInfo.Name</font></td>
+                        foreach (EgeResult result in Model.Ege)
+                        {
+                            float resultValue = (float)@info.GetValue(result);
+                            if (resultValue > 0)
+                            {
+                                <td><div align="center">@info.GetValue(result)</div></td>
+                            }
+                            else
+                            {
+                                <td><div align="center">&nbsp;</div></td>
+                            }
+                        }
+                    }
+                }
+            </tr>
+        }
+    </tbody>
+</table>
