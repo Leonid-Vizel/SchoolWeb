@@ -56,3 +56,41 @@
         }
     </tbody>
 </table>
+
+<h2 class="text-left">ОГЭ (Средний балл)</h2>
+<table class="table-bordered" cellspacing="0" cellpadding="2" width="100%">
+    <tbody>
+        <tr>
+            <td><font size="+1"><b>Предмет / Год</b></font></td>
+            @foreach (OgeResult result in Model.Oge)
+            {
+                <td><div align="center"><b>@result.Year</b></div></td>
+            }
+        </tr>
+
+        @foreach (PropertyInfo info in typeof(OgeResult).GetProperties())
+        {
+            <tr>
+                @{
+                    ResultAttribute attributeInfo = info.GetCustomAttribute(typeof(ResultAttribute)) as ResultAttribute;
+                    if (attributeInfo != null)
+                    {
+                        <td><font size="+1">@attributeInfo.Name</font></td>
+                        foreach (OgeResult result in Model.Oge)
+                        {
+                            float resultValue = (float)@info.GetValue(result);
+                            if (resultValue > 0)
+                            {
+                                <td><div align="center">@info.GetValue(result)</div></td>
+                            }
+                            else
+                            {
+                                <td><div align="center">&nbsp;</div></td>
+                            }
+                        }
+                    }
+                }
+            </tr>
+        }
+    </tbody>
+</table>

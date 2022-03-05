@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using SchoolWeb.Attributes;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace SchoolWeb.Models
@@ -9,25 +10,25 @@ namespace SchoolWeb.Models
         public int Id { get; set; }
         [DisplayName("Год")]
         public int Year { get; set; }
-        [DisplayName("Русский язык")]
+        [Result("Русский язык")]
         public float Russian { get; set; }
-        [DisplayName("Математика")]
+        [Result("Математика")]
         public float Math { get; set; }
-        [DisplayName("Обществознание")]
+        [Result("Обществознание")]
         public float SocialStudies { get; set; }
-        [DisplayName("Английский язык")]
+        [Result("Английский язык")]
         public float English { get; set; }
-        [DisplayName("Информатика")]
+        [Result("Информатика")]
         public float Informatics { get; set; }
-        [DisplayName("История")]
+        [Result("История")]
         public float History { get; set; }
-        [DisplayName("Биология")]
+        [Result("Биология")]
         public float Biology { get; set; }
-        [DisplayName("Химия")]
+        [Result("Химия")]
         public float Chemistry { get; set; }
-        [DisplayName("География")]
+        [Result("География")]
         public float Geography { get; set; }
-        [DisplayName("Физика")]
+        [Result("Физика")]
         public float Physics { get; set; }
     }
 }

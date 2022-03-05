@@ -11,12 +11,57 @@ namespace SchoolWeb.Controllers
 
         public IActionResult License()
         {
-            return View();
+            return Redirect("https://elenaservis.ru/lisen.html");
         }
 
-        public IActionResult Accreditation()
+        public IActionResult Acceditation()
         {
-            return View();
+            return Redirect("https://elenaservis.ru/akred.html");
+        }
+
+        public IActionResult Charter()
+        {
+            return Redirect("https://elenaservis.ru/doca/ustavsch.pdf");
+        }
+
+        public IActionResult PropgramPre()
+        {
+            return Redirect("https://elenaservis.ru/doca/doshprog.pdf");
+        }
+
+        public IActionResult PropgramJunior()
+        {
+            return Redirect("https://elenaservis.ru/doca/nachprog.pdf");
+        }
+
+        public IActionResult PropgramGeneral()
+        {
+            return Redirect("https://elenaservis.ru/doca/osnprog.pdf");
+        }
+
+        public IActionResult PropgramMiddle()
+        {
+            return Redirect("https://elenaservis.ru/doca/oopso2020.pdf");
+        }
+
+        public IActionResult AdmissionRegulations()
+        {
+            return Redirect("https://elenaservis.ru/doca/polpriem.pdf");
+        }
+
+        public IActionResult FGOSRegulations()
+        {
+            return Redirect("https://elenaservis.ru/doca/schmonitor.pdf");
+        }
+
+        public IActionResult AttestationRegulations()
+        {
+            return Redirect("https://elenaservis.ru/doca/tekon.pdf");
+        }
+
+        public IActionResult AttestationReference()
+        {
+            return Redirect("https://elenaservis.ru/doca/spravk.pdf");
         }
     }
 }
