@@ -50,11 +50,19 @@
                                 <a class="dropdown-item" asp-controller="Documents" asp-action="AttestationReference">Справка о промежуточной аттестации</a>
                             </div>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Home" asp-action="Schedule">График(и режим дня)</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">График</a>
+                            <div class="dropdown-menu navbar-dark">
+                                <a class="dropdown-item" asp-controller="Home" asp-action="AnnualSchedule">Годовой календарный график</a>
+                                <a class="dropdown-item" asp-controller="Home" asp-action="Regime">Режим дня</a>
+                                <a class="dropdown-item" asp-controller="Home" asp-action="HealthAndFood">Здоровье и питание"</a>
+                            </div>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Home" asp-action="Info">Педагогический состав</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Home" asp-action="Info">Условия приёма</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Home" asp-action="Reports">Отзывы</a>
