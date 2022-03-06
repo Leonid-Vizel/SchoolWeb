@@ -7,10 +7,10 @@ namespace SchoolWeb.Data
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
-            
+
         }
 
-        public DbSet<EgeResult> egeResults;
-        public DbSet<OgeResult> ogeResults;
+        public DbSet<EgeResult> egeResults { get; set; }
+        public DbSet<OgeResult> ogeResults { get; set; }
     }
 }
