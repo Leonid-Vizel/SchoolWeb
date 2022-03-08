@@ -24,7 +24,7 @@
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Образование</a>
-                            <div class="dropdown-menu navbar-dark">
+                            <div class="dropdown-menu">
                                 <a class="dropdown-item" asp-controller="Education" asp-action="WeekendSchool">Школа выходного дня</a>
                                 <a class="dropdown-item" asp-controller="Education" asp-action="PreSchool">Дошкольники (3-7 лет)</a>
                                 <a class="dropdown-item" asp-controller="Education" asp-action="JuniorSchool">Начальная школа (1-4 класс)</a>
@@ -53,16 +53,19 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">График</a>
                             <div class="dropdown-menu navbar-dark">
-                                <a class="dropdown-item" asp-controller="Home" asp-action="AnnualSchedule">Годовой календарный график</a>
+                                <a class="dropdown-item" asp-controller="Home" asp-action="Schedule">Годовой календарный график</a>
                                 <a class="dropdown-item" asp-controller="Home" asp-action="Regime">Режим дня</a>
                                 <a class="dropdown-item" asp-controller="Home" asp-action="HealthAndFood">Здоровье и питание"</a>
                             </div>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="Home" asp-action="Info">Педагогический состав</a>
+                            <a class="nav-link" asp-controller="Home" asp-action="Staff">Педагогический состав</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="Home" asp-action="Info">Условия приёма</a>
+                            <a class="nav-link" asp-controller="Home" asp-action="Conditions">Условия приёма</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Home" asp-action="Requisites">Реквизиты</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Home" asp-action="Reports">Отзывы</a>

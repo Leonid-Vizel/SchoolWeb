@@ -28,6 +28,16 @@ namespace SchoolWeb.Controllers
             return View();
         }
 
+        public IActionResult Conditions()
+        {
+            return View();
+        }
+
+        public IActionResult Requisites()
+        {
+            return View();
+        }
+
         public IActionResult Staff()
         {
             return View();
