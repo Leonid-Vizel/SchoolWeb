@@ -10,7 +10,9 @@ namespace SchoolWeb.Data
 
         }
 
-        public DbSet<EgeResult> egeResults { get; set; }
-        public DbSet<OgeResult> ogeResults { get; set; }
+        public DbSet<EgeResult> EgeResults { get; set; }
+        public DbSet<OgeResult> OgeResults { get; set; }
+        public DbSet<Staff> SchoolStaff { get; set; }
+        public DbSet<Administration> SchoolAdministration { get; set; }
     }
 }

@@ -1,7 +1,62 @@
-﻿@{
+﻿@model TotalStaff
+@{
     ViewData["Title"] = "Педагогический состав";
 }
 
 <hr />
 <h2 class="text-center">Администрация и педагогический состав</h2>
 <hr />
+
+<h4 class="text-left">Администрация:</h4>
+
+<table class="table-bordered" cellpadding="2" width="100%">
+    <tbody>
+        <tr>
+            <td><b>Должность</b></td>
+            <td><b>Ф.И.О</b></td>
+            <td><b>Образование</b></td>
+            <td><b>Кв. категория</b></td>
+            <td><b>Телефон</b></td>
+            <td><b>Почта</b></td>
+        </tr>
+        @foreach (Administration admin in Model.Administration)
+        {
+            <tr>
+                <td><b>@admin.Position</b></td>
+                <td>@admin.Name</td>
+                <td>@admin.Education</td>
+                <td>@admin.Category</td>
+                <td>@admin.Phone</td>
+                <td>@admin.Email</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h4 class="text-left">Педагогический состав:</h4>
+
+<table class="table-bordered" cellpadding="2" width="100%">
+    <tbody>
+        <tr class="text-center">
+            <td rowspan="2"><b>Название методического объединения</b></td>
+            <td rowspan="2"><b>Всего учителей</b></td>
+            <td colspan="3"><b>Из них</b></td>
+        </tr>
+        <tr class="text-center">
+            <td>Имеют высшее образование</td>
+            <td>Имеют высшую квалификационную категорию</td>
+            <td>Имеют I квалификационную категорию</td>
+        </tr>
+
+        @foreach (Staff staff in Model.Staff)
+        {
+            <tr>
+                <td><b>@staff.Category</b></td>
+                <td class="text-center">@staff.Total</td>
+                <td class="text-center">@staff.HasHighEdu</td>
+                <td class="text-center">@staff.HasHighQuality</td>
+                <td class="text-center">@staff.HasFirstQuality</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -42,8 +42,8 @@ namespace SchoolWeb.Controllers
         {
             TotalResults results = new TotalResults()
             {
-                Ege = db.egeResults,
-                Oge = db.ogeResults
+                Ege = db.EgeResults,
+                Oge = db.OgeResults
             };
             return View(results);
         }

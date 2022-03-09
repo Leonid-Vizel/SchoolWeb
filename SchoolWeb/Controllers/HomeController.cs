@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SchoolWeb.Data;
 using SchoolWeb.Models;
 using System.Diagnostics;
 
@@ -6,6 +7,13 @@ namespace SchoolWeb.Controllers
 {
     public class HomeController : Controller
     {
+        ApplicationDbContext db;
+
+        public HomeController(ApplicationDbContext db)
+        {
+            this.db = db;
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -33,7 +41,11 @@ namespace SchoolWeb.Controllers
 
         public IActionResult Staff()
         {
-            return View();
+            return View(new TotalStaff()
+            {
+                Staff = db.SchoolStaff,
+                Administration = db.SchoolAdministration
+            });
         }
 
         public IActionResult HealthAndFood()
