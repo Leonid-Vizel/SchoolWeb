@@ -6,13 +6,6 @@ namespace SchoolWeb.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
-
         public IActionResult Index()
         {
             return View();
@@ -39,6 +32,21 @@ namespace SchoolWeb.Controllers
         }
 
         public IActionResult Staff()
+        {
+            return View();
+        }
+
+        public IActionResult HealthAndFood()
+        {
+            return View();
+        }
+
+        public IActionResult Regime()
+        {
+            return View();
+        }
+
+        public IActionResult Reports()
         {
             return View();
         }
