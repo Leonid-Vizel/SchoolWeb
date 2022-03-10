@@ -6,7 +6,7 @@ namespace SchoolWeb.Controllers
 {
     public class EducationController : Controller
     {
-        ApplicationDbContext db;
+        private ApplicationDbContext db;
 
         public EducationController(ApplicationDbContext db)
         {
@@ -40,12 +40,11 @@ namespace SchoolWeb.Controllers
 
         public IActionResult Graduates()
         {
-            TotalResults results = new TotalResults()
+            return View(new TotalResults()
             {
                 Ege = db.EgeResults,
                 Oge = db.OgeResults
-            };
-            return View(results);
+            });
         }
 
         public IActionResult Additional()

@@ -7,7 +7,7 @@ namespace SchoolWeb.Controllers
 {
     public class HomeController : Controller
     {
-        ApplicationDbContext db;
+        private ApplicationDbContext db;
 
         public HomeController(ApplicationDbContext db)
         {

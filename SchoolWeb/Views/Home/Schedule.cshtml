@@ -1,7 +1,160 @@
 ﻿@{
     ViewData["Title"] = "Годовой график";
 }
-
 <hr />
 <h2 class="text-center">Годовой календарный график школы "Елена-Сервис"</h2>
 <hr />
+<br>
+
+<table width="100%" class = "table-inside-border" style="table-layout: fixed ; width: 100%;">
+    <tr>
+        <td class = "td-inside-border" valign="top">
+            <h3 class="text-center">Продолжительность учебной недели</h3>
+            <div class="d-flex justify-content-center">
+                <ul>
+                    <li><b>5 дней</b> - 1 - 4 классы</li>
+                    <li><b>6 дней</b> - 5 - 11 классы</li>
+                </ul>
+            </div>
+        </td>
+        <td class = "td-inside-border" valign="top">
+            <h3 class="text-center">Продолжительность урока</h3>
+            <div class="d-flex justify-content-center">
+                <ul>
+                    <li><b>35 минут</b> - для 1 классов в 1 полугодии</li>
+                    <li><b>45 минут</b> - для 1 классов в 2 полугодии</li>
+                    <li><b>45 минут</b> - для учеников 2-11 классов</li>
+                </ul>
+            </div>
+            <p class="text-center"><i>Примечание: Уроки начинаются в 8:00</i></p>
+        </td>
+    </tr>
+    <tr>
+        <td class = "td-inside-border" valign="top">
+            <h3 class="text-center">Продолжительность учебного года</h3>
+            <div class="d-flex justify-content-center">
+                <ul>
+                    <li><b>33 учебные недели</b> - для учеников 1 классов</li>
+                    <li><b>35 учебных недель</b> - для учеников 2 - 8 классов</li>
+                    <li><b>34 учебные недели</b> - для учеников 9 классов</li>
+                    <li><b>35 учебных недель</b> - для учеников 10 классов</li>
+                    <li><b>34 учебные недели</b> - для учеников 11 классов</li>
+                </ul>
+            </div>
+            <p class="text-center"><i>Примечаение: Основные учебные занятия (уроки) проходят в 1-ю смену</i></p>
+        </td>
+        <td class = "td-inside-border" valign="top">
+            <h3 class="text-center">Режим питания</h3>
+            <div class="d-flex justify-content-center">
+                <ul>
+                    <li>
+                        <b>Завтрак:</b>
+                        <ul>
+                            <li><b>8:45:</b> 1 - 3 классы</li>
+                            <li><b>9:45:</b> 4 - 11 классы</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <b>Обед:</b>
+                        <ul>
+                            <li><b>11.40:</b> 1 классы</li>
+                            <li><b>12.40:</b> 2 - 4 классы</li>
+                            <li><b>13.40:</b> 5 - 11 классы</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <b>Ужин:</b>
+                        <ul>
+                            <li><b>15.30:</b> 1 - 4 классы</li>
+                            <li><b>16.00:</b> 5 - 11 классы</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </td>
+    </tr>
+</table>
+
+<h3 class="text-center">Каникулы</h3>
+<table width="100%" cellpadding="5" class="table-bordered">
+    <tbody>
+        <tr>
+            <td bgcolor = "#FFFACD" rowspan="2" class = "text-center">Каникулы</td>
+            <td bgcolor = "#FFFACD" rowspan="1" colspan="2" class="text-center">Дата</td>
+            <td bgcolor = "#FFFACD" rowspan="2" class="text-center">Продолжительность</td>
+        </tr>
+        <tr>
+            <td bgcolor = "#FFFACD" class="text-center">Началo каникул</td>
+            <td bgcolor = "#FFFACD" class="text-center">Окончание каникул</td>
+        </tr>
+        <tr>
+            <td bgcolor = "#FFFACD">Осенние</td>
+            <td>01.11.2021</td>
+            <td>07.11.2021</td>
+            <td>1 неделя</td>
+        </tr>
+        <tr>
+            <td bgcolor = "#FFFACD">Зимние</td>
+            <td>29.12.2021</td>
+            <td>09.01.2022</td>
+            <td>1 неделя и 5 дней</td>
+        </tr>
+        <tr>
+            <td bgcolor = "#FFFACD">Весенние</td>
+            <td>28.03.2022</td>
+            <td>03.04.2022</td>
+            <td>1 неделя</td>
+        </tr>
+        <tr>
+            <td bgcolor = "#FFFACD">Доп. для 1 классов</td>
+            <td>07.02.2022</td>
+            <td>13.02.2022</td>
+            <td>1 неделя</td>
+        </tr>
+    </tbody>
+</table>
+<br>
+<h3 class="text-center">Четверти</h3>
+<table width="100%" cellpadding="5" class="table-bordered">
+    <tbody>
+        <tr>
+            <td bgcolor = "#FFFACD" rowspan="2" class = "text-center">Учебная четверть</td>
+            <td bgcolor = "#FFFACD" rowspan="1" colspan="2" class="text-center">Дата</td>
+            <td bgcolor = "#FFFACD" rowspan="2" class="text-center">Продолжительность</td>
+        </tr>
+        <tr>
+            <td bgcolor = "#FFFACD" class="text-center">Началo четверти</td>
+            <td bgcolor = "#FFFACD" class="text-center">Окончание четверти</td>
+        </tr>
+        <tr>
+            <td bgcolor = "#FFFACD">1-ая четверть</td>
+            <td>01.09.2021</td>
+            <td>30.10.2021</td>
+            <td>8 недель и 4 дня</td>
+        </tr>
+        <tr>
+            <td bgcolor = "#FFFACD">2-ая четверть</td>
+            <td>08.11.2021</td>
+            <td>28.12.2021</td>
+            <td>7 недель и 2 дня</td>
+        </tr>
+        <tr>
+            <td bgcolor = "#FFFACD">3-ья четверть</td>
+            <td>10.01.2022</td>
+            <td>26.03.2022</td>
+            <td>11 недель</td>
+        </tr>
+        <tr>
+            <td bgcolor = "#FFFACD">4-ая четверть</td>
+            <td>04.04.2022</td>
+            <td>31.05.2022</td>
+            <td>8 недель и 2 дня</td>
+        </tr>
+        <tr>
+            <td bgcolor = "#FFFACD">ИТОГО:</td>
+            <td>01.09.2021</td>
+            <td>31.05.2022</td>
+            <td>35 недель</td>
+        </tr>
+    </tbody>
+</table>

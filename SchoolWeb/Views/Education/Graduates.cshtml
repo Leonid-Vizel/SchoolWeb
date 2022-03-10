@@ -19,14 +19,14 @@
     экзамене, позволяют выпускникам школы «Елена-Сервис» получить приглашение
     на зачисление сразу из нескольких вузов, что дает возможность выбора.
 </p>
-<h2 class="text-left">ЕГЭ (Средний балл)</h2>
+<h3 class="text-left">ЕГЭ (Средний балл)</h3>
 <table class="table-bordered" cellspacing="0" cellpadding="2" width="100%">
     <tbody>
         <tr>
-            <td><font size="+1"><b>Предмет / Год</b></font></td>
+            <td bgcolor = "#FFFACD"><font size="+1"><b>Предмет / Год</b></font></td>
             @foreach (EgeResult result in Model.Ege)
             {
-                <td><div align="center"><b>@result.Year</b></div></td>
+                <td bgcolor = "#FFFACD"><div align="center"><b>@result.Year</b></div></td>
             }
         </tr>
 
@@ -37,7 +37,7 @@
                     ResultAttribute attributeInfo = info.GetCustomAttribute(typeof(ResultAttribute)) as ResultAttribute;
                     if (attributeInfo != null)
                     {
-                        <td><font size="+1">@attributeInfo.Name</font></td>
+                        <td bgcolor = "#FFFACD"><font size="+1">@attributeInfo.Name</font></td>
                         foreach (EgeResult result in Model.Ege)
                         {
                             float resultValue = (float)@info.GetValue(result);
@@ -57,14 +57,14 @@
     </tbody>
 </table>
 <br>
-<h2 class="text-left">ОГЭ (Средний балл)</h2>
+<h3 class="text-left">ОГЭ (Средний балл)</h3>
 <table class="table-bordered" cellspacing="0" cellpadding="2" width="100%">
     <tbody>
         <tr>
-            <td><font size="+1"><b>Предмет / Год</b></font></td>
+            <td bgcolor = "#FFFACD"><font size="+1"><b>Предмет / Год</b></font></td>
             @foreach (OgeResult result in Model.Oge)
             {
-                <td><div align="center"><b>@result.Year</b></div></td>
+                <td bgcolor = "#FFFACD"><div align="center"><b>@result.Year</b></div></td>
             }
         </tr>
 
@@ -75,7 +75,7 @@
                     ResultAttribute attributeInfo = info.GetCustomAttribute(typeof(ResultAttribute)) as ResultAttribute;
                     if (attributeInfo != null)
                     {
-                        <td><font size="+1">@attributeInfo.Name</font></td>
+                        <td bgcolor = "#FFFACD"><font size="+1">@attributeInfo.Name</font></td>
                         foreach (OgeResult result in Model.Oge)
                         {
                             float resultValue = (float)@info.GetValue(result);
