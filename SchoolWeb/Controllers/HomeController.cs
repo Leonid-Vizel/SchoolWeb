@@ -8,10 +8,12 @@ namespace SchoolWeb.Controllers
     public class HomeController : Controller
     {
         private ApplicationDbContext db;
+        private ScheduleInfo info;
 
-        public HomeController(ApplicationDbContext db)
+        public HomeController(ApplicationDbContext db, ScheduleInfo info)
         {
             this.db = db;
+            this.info = info;
         }
 
         public IActionResult Index()
@@ -26,7 +28,7 @@ namespace SchoolWeb.Controllers
 
         public IActionResult Schedule()
         {
-            return View();
+            return View(info);
         }
 
         public IActionResult Conditions()
