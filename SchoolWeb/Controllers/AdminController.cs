@@ -15,11 +15,6 @@ namespace SchoolWeb.Controllers
             return View();
         }
 
-        public IActionResult EditOgeYear()
-        {
-            return View();
-        }
-
         public IActionResult DeleteOgeYear()
         {
             return View();
@@ -28,11 +23,6 @@ namespace SchoolWeb.Controllers
 
         #region ЕГЭ
         public IActionResult AddEgeYear()
-        {
-            return View();
-        }
-
-        public IActionResult EditEgeYear()
         {
             return View();
         }
