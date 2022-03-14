@@ -1,0 +1,12 @@
+﻿@model (int,int)
+@{
+    ViewData["Title"] = "Подтверждение";
+}
+
+<div class = "text-center">
+    <h3>Вы уверены, что хотите удалить результаты ОГЭ @Model.Item2 года с сайта?</h3>
+    <form method="post">
+        <a class="btn btn-outline-dark btn-lg mt-2" asp-controller="Education" asp-action="Graduates">Отмена</a>
+        <button type="submit" class = "btn btn-outline-danger btn-lg mt-2">Удалить</button>
+    </form>
+</div>

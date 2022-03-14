@@ -1,6 +1,9 @@
 ﻿@using System.Reflection
+@using Microsoft.AspNetCore.Identity
 @using SchoolWeb.Attributes
+@inject SignInManager<IdentityUser> signInManager;
 @model TotalResults
+
 @{
     ViewData["Title"] = "Выпускники";
 }
@@ -19,14 +22,41 @@
     экзамене, позволяют выпускникам школы «Елена-Сервис» получить приглашение
     на зачисление сразу из нескольких вузов, что дает возможность выбора.
 </p>
-<h3 class="text-left">ЕГЭ (Средний балл)</h3>
+
+<div class="row">
+    <div class="col-6">
+        <h3 class="text-left">ЕГЭ (Средний балл)</h3>
+    </div>
+    @if (signInManager.IsSignedIn(User))
+    {
+        <div class="col-6 text-end">
+            <a asp-controller="Admin" asp-action="AddEgeYear" class="btn btn-outline-primary">
+                <i class="bi bi-plus-circle-fill"></i> Добавить
+            </a>
+        </div>
+    }
+</div>
 <table class="table-bordered" cellspacing="0" cellpadding="2" width="100%">
     <tbody>
         <tr>
-            <td bgcolor = "#FFFACD"><font size="+1"><b>Предмет / Год</b></font></td>
-            @foreach (EgeResult result in Model.Ege)
+            <td bgcolor="#FFFACD"><font size="+1"><b>Предмет / Год</b></font></td>
+            @if (signInManager.IsSignedIn(User))
             {
-                <td bgcolor = "#FFFACD"><div align="center"><b>@result.Year</b></div></td>
+                @foreach (EgeResult result in Model.Ege)
+                {
+                    <td bgcolor="#FFFACD">
+                        <div align="center">
+                            <a asp-controller="Admin" asp-action="DeleteEgeYear" asp-route-id="@result.Id" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a> <b>@result.Year</b>
+                        </div>
+                    </td>
+                }
+            }
+            else
+            {
+                @foreach (EgeResult result in Model.Ege)
+                {
+                    <td bgcolor="#FFFACD"><div align="center"><b>@result.Year</b></div></td>
+                }
             }
         </tr>
 
@@ -37,7 +67,7 @@
                     ResultAttribute attributeInfo = info.GetCustomAttribute(typeof(ResultAttribute)) as ResultAttribute;
                     if (attributeInfo != null)
                     {
-                        <td bgcolor = "#FFFACD"><font size="+1">@attributeInfo.Name</font></td>
+                        <td bgcolor="#FFFACD"><font size="+1">@attributeInfo.Name</font></td>
                         foreach (EgeResult result in Model.Ege)
                         {
                             float resultValue = (float)@info.GetValue(result);
@@ -57,14 +87,41 @@
     </tbody>
 </table>
 <br>
-<h3 class="text-left">ОГЭ (Средний балл)</h3>
+
+<div class="row">
+    <div class="col-6">
+        <h3 class="text-left">ОГЭ (Средний балл)</h3>
+    </div>
+    @if (signInManager.IsSignedIn(User))
+    {
+        <div class="col-6 text-end">
+            <a asp-controller="Admin" asp-action="AddOgeYear" class="btn btn-outline-primary">
+                <i class="bi bi-plus-circle-fill"></i> Добавить
+            </a>
+        </div>
+    }
+</div>
 <table class="table-bordered" cellspacing="0" cellpadding="2" width="100%">
     <tbody>
         <tr>
-            <td bgcolor = "#FFFACD"><font size="+1"><b>Предмет / Год</b></font></td>
-            @foreach (OgeResult result in Model.Oge)
+            <td bgcolor="#FFFACD"><font size="+1"><b>Предмет / Год</b></font></td>
+            @if (signInManager.IsSignedIn(User))
             {
-                <td bgcolor = "#FFFACD"><div align="center"><b>@result.Year</b></div></td>
+                @foreach (OgeResult result in Model.Oge)
+                {
+                    <td bgcolor="#FFFACD">
+                        <div align="center">
+                            <a asp-controller="Admin" asp-action="DeleteOgeYear" asp-route-id="@result.Id" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a> <b>@result.Year</b>
+                        </div>
+                    </td>
+                }
+            }
+            else
+            {
+                @foreach (OgeResult result in Model.Oge)
+                {
+                    <td bgcolor="#FFFACD"><div align="center"><b>@result.Year</b></div></td>
+                }
             }
         </tr>
 
@@ -75,7 +132,7 @@
                     ResultAttribute attributeInfo = info.GetCustomAttribute(typeof(ResultAttribute)) as ResultAttribute;
                     if (attributeInfo != null)
                     {
-                        <td bgcolor = "#FFFACD"><font size="+1">@attributeInfo.Name</font></td>
+                        <td bgcolor="#FFFACD"><font size="+1">@attributeInfo.Name</font></td>
                         foreach (OgeResult result in Model.Oge)
                         {
                             float resultValue = (float)@info.GetValue(result);

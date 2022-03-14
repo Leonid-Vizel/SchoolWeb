@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using SchoolWeb.Data;
 using SchoolWeb.Models;
-using System.Diagnostics;
 
 namespace SchoolWeb.Controllers
 {
@@ -18,15 +17,18 @@ namespace SchoolWeb.Controllers
             this.SignInManager = SignInManager;
             this.UserManager = UserManager;
         }
-        public IActionResult ResetSchedule()
-        {
-            return View();
-        }
 
         #region ОГЭ
         public IActionResult AddOgeYear()
         {
-            return View();
+            if (SignInManager.IsSignedIn(User))
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("NoPermissions");
+            }
         }
 
         [HttpPost]
@@ -42,16 +44,63 @@ namespace SchoolWeb.Controllers
             return View(result);
         }
 
-        public IActionResult DeleteOgeYear()
+        public IActionResult DeleteOgeYear(int id)
         {
-            return View();
+            if (SignInManager.IsSignedIn(User))
+            {
+                OgeResult? foundResult = db.OgeResults.FirstOrDefault(x => x.Id == id);
+                if (foundResult != null)
+                {
+                    return View((foundResult.Id, foundResult.Year));
+                }
+                else
+                {
+                    return RedirectToAction("ElementNotFound");
+                }
+            }
+            else
+            {
+                return RedirectToAction("NoPermissions");
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ActionName("DeleteOgeYear")]
+        public IActionResult DeleteOgeYearPOST(int id)
+        {
+            if (SignInManager.IsSignedIn(User))
+            {
+                OgeResult? foundResult = db.OgeResults.FirstOrDefault(x => x.Id == id);
+                if (foundResult != null)
+                {
+                    db.OgeResults.Remove(foundResult);
+                    db.SaveChanges();
+                    return RedirectToAction(controllerName: "Education", actionName: "Graduates");
+                }
+                else
+                {
+                    return RedirectToAction("ElementNotFound");
+                }
+            }
+            else
+            {
+                return RedirectToAction("NoPermissions");
+            }
         }
         #endregion
 
         #region ЕГЭ
         public IActionResult AddEgeYear()
         {
-            return View();
+            if (SignInManager.IsSignedIn(User))
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("NoPermissions");
+            }
         }
 
         [HttpPost]
@@ -69,7 +118,22 @@ namespace SchoolWeb.Controllers
 
         public IActionResult DeleteEgeYear(int id)
         {
-            return View();
+            if (SignInManager.IsSignedIn(User))
+            {
+                EgeResult? foundResult = db.EgeResults.FirstOrDefault(x => x.Id == id);
+                if (foundResult != null)
+                {
+                    return View((foundResult.Id, foundResult.Year));
+                }
+                else
+                {
+                    return RedirectToAction("ElementNotFound");
+                }
+            }
+            else
+            {
+                return RedirectToAction("NoPermissions");
+            }
         }
 
         [HttpPost]
@@ -88,12 +152,12 @@ namespace SchoolWeb.Controllers
                 }
                 else
                 {
-                    return RedirectToAction(controllerName: "Education", actionName: "Graduates");
+                    return RedirectToAction("ElementNotFound");
                 }
             }
             else
             {
-                return RedirectToAction(controllerName: "Education", actionName: "Graduates");
+                return RedirectToAction("NoPermissions");
             }
         }
         #endregion
@@ -136,19 +200,24 @@ namespace SchoolWeb.Controllers
 
         #endregion
 
-        #region WebAdmin
+        #region Errors
 
-        public IActionResult RegisterWebAdmin()
+        public IActionResult NoPermissions()
         {
             return View();
         }
 
-        public IActionResult DeleteWebAdmin()
+        public IActionResult ElementNotFound()
         {
             return View();
         }
 
         #endregion
+
+        public IActionResult ResetSchedule()
+        {
+            return View();
+        }
 
         public IActionResult ViewLog()
         {

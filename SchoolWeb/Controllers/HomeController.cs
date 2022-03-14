@@ -60,11 +60,6 @@ namespace SchoolWeb.Controllers
             return View();
         }
 
-        public IActionResult Reports()
-        {
-            return View();
-        }
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

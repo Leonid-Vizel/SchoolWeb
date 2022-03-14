@@ -1,0 +1,9 @@
+﻿@{
+    ViewData["Title"] = "Авторизуйтесь";
+}
+
+<div class = "text-center">
+    <h3>Для получения доступа к этой странице необходимы права администратора!</h3>
+    <a class="btn btn-outline-dark btn-lg mt-2" asp-controller="Home" asp-action="Index">Главная</a>
+    <a class="btn btn-outline-success btn-lg mt-2" asp-area="Identity" asp-page="/Account/Login">Войти</a>
+</div>
