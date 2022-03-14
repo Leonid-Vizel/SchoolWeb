@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SchoolWeb.Data;
 using SchoolWeb.Models;
+using System.Diagnostics;
 
 namespace SchoolWeb.Controllers
 {
@@ -28,6 +29,19 @@ namespace SchoolWeb.Controllers
             return View();
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddOgeYear(OgeResult result)
+        {
+            if (ModelState.IsValid)
+            {
+                db.OgeResults.Add(result);
+                db.SaveChanges();
+                return RedirectToAction(controllerName: "Education", actionName: "Graduates");
+            }
+            return View(result);
+        }
+
         public IActionResult DeleteOgeYear()
         {
             return View();
@@ -44,7 +58,7 @@ namespace SchoolWeb.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult AddEgeYear(EgeResult result)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 db.EgeResults.Add(result);
                 db.SaveChanges();

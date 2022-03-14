@@ -9,7 +9,7 @@
 <style>
     .input-wrapper {
         margin-top: 5px;
-        margin-bottom: 5px;
+        margin-bottom: 10px;
         margin-right: 0px;
         box-shadow: rgba(113,113,113,0.15) -5px -5px 11px, rgba(0,0,0,0.15) 5px 5px 11px;
         border-radius: 20px;
@@ -25,7 +25,7 @@
             height: 100%;
             border-radius: 20px;
             text-indent: 20px;
-            color: #B2BECD;
+            color: #000000;
             font-size: 14px;
             outline: 0;
         }
@@ -91,11 +91,11 @@
 <div class="row justify-content-md-center">
     <div class="col-md-6">
         <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h2 class="text-center">Создание нового аккаунта</h2>
+            <h2 class="text-center">Добавление нового администратора</h2>
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            <div class="input-wrapper">
+            <div class="input-wrapper mt-3">
                 <input asp-for="Input.Email" placeholder="Почта@mail.ru" aria-required="true" />
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
@@ -115,7 +115,7 @@
                 </div>
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
-            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-outline-primary">Зарегистрировать</button>
+            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-outline-dark">Зарегистрировать</button>
         </form>
     </div>
 </div>
