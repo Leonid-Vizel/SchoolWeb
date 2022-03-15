@@ -2,20 +2,21 @@
 using Microsoft.AspNetCore.Mvc;
 using SchoolWeb.Data;
 using SchoolWeb.Models;
+using System.Text.Json;
 
 namespace SchoolWeb.Controllers
 {
     public class AdminController : Controller
     {
         private ApplicationDbContext db;
+        private ScheduleInfo info;
         private readonly SignInManager<IdentityUser> SignInManager;
-        private readonly UserManager<IdentityUser> UserManager;
 
-        public AdminController(ApplicationDbContext db, SignInManager<IdentityUser> SignInManager, UserManager<IdentityUser> UserManager)
+        public AdminController(ApplicationDbContext db, ScheduleInfo info, SignInManager<IdentityUser> SignInManager)
         {
             this.db = db;
             this.SignInManager = SignInManager;
-            this.UserManager = UserManager;
+            this.info = info;
         }
 
         #region ОГЭ
@@ -166,17 +167,38 @@ namespace SchoolWeb.Controllers
 
         public IActionResult AddSchoolAdminisrator()
         {
-            return View();
+            if (SignInManager.IsSignedIn(User))
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("NoPermissions");
+            }
         }
 
         public IActionResult EditSchoolAdminisrator()
         {
-            return View();
+            if (SignInManager.IsSignedIn(User))
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("NoPermissions");
+            }
         }
 
         public IActionResult DeleteSchoolAdminisrator()
         {
-            return View();
+            if (SignInManager.IsSignedIn(User))
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("NoPermissions");
+            }
         }
 
         #endregion
@@ -185,17 +207,38 @@ namespace SchoolWeb.Controllers
 
         public IActionResult AddSchoolTeacher()
         {
-            return View();
+            if (SignInManager.IsSignedIn(User))
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("NoPermissions");
+            }
         }
 
         public IActionResult EditSchoolTeacher()
         {
-            return View();
+            if (SignInManager.IsSignedIn(User))
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("NoPermissions");
+            }
         }
 
         public IActionResult DeleteSchoolTeacher()
         {
-            return View();
+            if (SignInManager.IsSignedIn(User))
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("NoPermissions");
+            }
         }
 
         #endregion
@@ -214,14 +257,45 @@ namespace SchoolWeb.Controllers
 
         #endregion
 
+        #region Schedule
         public IActionResult ResetSchedule()
         {
-            return View();
+            if (SignInManager.IsSignedIn(User))
+            {
+                return View(info);
+            }
+            else
+            {
+                return RedirectToAction("NoPermissions");
+            }
         }
 
-        public IActionResult ViewLog()
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ResetSchedule(ScheduleInfo updateInfo)
         {
-            return View();
+            if (SignInManager.IsSignedIn(User))
+            {
+                if (ModelState.IsValid)
+                {
+                    using (FileStream writeString = new FileStream("schedule.json", FileMode.OpenOrCreate))
+                    {
+                        info.Copy(updateInfo);
+                        JsonSerializer.Serialize<ScheduleInfo>(writeString, info);
+                    }
+                    return RedirectToAction(controllerName: "Home", actionName: "Schedule");
+                }
+                else
+                {
+                    return View();
+                }
+            }
+            else
+            {
+                return RedirectToAction("NoPermissions");
+            }
         }
+
+        #endregion
     }
 }
