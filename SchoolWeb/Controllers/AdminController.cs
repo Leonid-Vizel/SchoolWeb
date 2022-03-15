@@ -165,6 +165,7 @@ namespace SchoolWeb.Controllers
 
         #region Adminisrator
 
+        #region Add
         public IActionResult AddAdminisrator()
         {
             if (SignInManager.IsSignedIn(User))
@@ -199,12 +200,22 @@ namespace SchoolWeb.Controllers
                 return RedirectToAction("NoPermissions");
             }
         }
+        #endregion
 
-        public IActionResult EditAdminisrator()
+        #region Edit
+        public IActionResult EditAdminisrator(int id)
         {
             if (SignInManager.IsSignedIn(User))
             {
-                return View();
+                Administration? foundAdmin = db.SchoolAdministration.FirstOrDefault(x=>x.Id == id);
+                if (foundAdmin != null)
+                {
+                    return View(foundAdmin);
+                }
+                else
+                {
+                    return RedirectToAction("ElementNotFound");
+                }
             }
             else
             {
@@ -212,6 +223,31 @@ namespace SchoolWeb.Controllers
             }
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditAdminisrator(Administration administration)
+        {
+            if (SignInManager.IsSignedIn(User))
+            {
+                if (ModelState.IsValid)
+                {
+                    db.SchoolAdministration.Update(administration);
+                    await db.SaveChangesAsync();
+                    return RedirectToAction(controllerName: "Home", actionName: "Staff");
+                }
+                else
+                {
+                    return View(administration);
+                }
+            }
+            else
+            {
+                return RedirectToAction("NoPermissions");
+            }
+        }
+        #endregion
+
+        #region Delete
         public IActionResult DeleteAdminisrator(int id)
         {
             if (SignInManager.IsSignedIn(User))
@@ -256,11 +292,13 @@ namespace SchoolWeb.Controllers
                 return RedirectToAction("NoPermissions");
             }
         }
+        #endregion
 
         #endregion
 
         #region Teacher
 
+        #region Add
         public IActionResult AddTeacher()
         {
             if (SignInManager.IsSignedIn(User))
@@ -295,12 +333,22 @@ namespace SchoolWeb.Controllers
                 return RedirectToAction("NoPermissions");
             }
         }
+        #endregion
 
-        public IActionResult EditTeacher()
+        #region Edit
+        public IActionResult EditTeacher(int id)
         {
             if (SignInManager.IsSignedIn(User))
             {
-                return View();
+                Staff? foundStaff = db.SchoolStaff.FirstOrDefault(x => x.Id == id);
+                if (foundStaff != null)
+                {
+                    return View(foundStaff);
+                }
+                else
+                {
+                    return RedirectToAction("ElementNotFound");
+                }
             }
             else
             {
@@ -308,6 +356,31 @@ namespace SchoolWeb.Controllers
             }
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditTeacher(Staff staff)
+        {
+            if (SignInManager.IsSignedIn(User))
+            {
+                if (ModelState.IsValid)
+                {
+                    db.SchoolStaff.Update(staff);
+                    await db.SaveChangesAsync();
+                    return RedirectToAction(controllerName: "Home", actionName: "Staff");
+                }
+                else
+                {
+                    return View(staff);
+                }
+            }
+            else
+            {
+                return RedirectToAction("NoPermissions");
+            }
+        }
+        #endregion
+
+        #region Delete
         public IActionResult DeleteTeacher(int id)
         {
             if (SignInManager.IsSignedIn(User))
@@ -352,6 +425,7 @@ namespace SchoolWeb.Controllers
                 return RedirectToAction("NoPermissions");
             }
         }
+        #endregion
 
         #endregion
 
