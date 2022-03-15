@@ -34,12 +34,12 @@ namespace SchoolWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult AddOgeYear(OgeResult result)
+        public async Task<IActionResult> AddOgeYear(OgeResult result)
         {
             if (ModelState.IsValid)
             {
-                db.OgeResults.Add(result);
-                db.SaveChanges();
+                await db.OgeResults.AddAsync(result);
+                await db.SaveChangesAsync();
                 return RedirectToAction(controllerName: "Education", actionName: "Graduates");
             }
             return View(result);
@@ -52,7 +52,7 @@ namespace SchoolWeb.Controllers
                 OgeResult? foundResult = db.OgeResults.FirstOrDefault(x => x.Id == id);
                 if (foundResult != null)
                 {
-                    return View((foundResult.Id, foundResult.Year));
+                    return View(foundResult.Year);
                 }
                 else
                 {
@@ -68,7 +68,7 @@ namespace SchoolWeb.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ActionName("DeleteOgeYear")]
-        public IActionResult DeleteOgeYearPOST(int id)
+        public async Task<IActionResult> DeleteOgeYearPOST(int id)
         {
             if (SignInManager.IsSignedIn(User))
             {
@@ -76,7 +76,7 @@ namespace SchoolWeb.Controllers
                 if (foundResult != null)
                 {
                     db.OgeResults.Remove(foundResult);
-                    db.SaveChanges();
+                    await db.SaveChangesAsync();
                     return RedirectToAction(controllerName: "Education", actionName: "Graduates");
                 }
                 else
@@ -106,12 +106,12 @@ namespace SchoolWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult AddEgeYear(EgeResult result)
+        public async Task<IActionResult> AddEgeYear(EgeResult result)
         {
             if (ModelState.IsValid)
             {
-                db.EgeResults.Add(result);
-                db.SaveChanges();
+                await db.EgeResults.AddAsync(result);
+                await db.SaveChangesAsync();
                 return RedirectToAction(controllerName:"Education", actionName:"Graduates");
             }
             return View(result);
@@ -124,7 +124,7 @@ namespace SchoolWeb.Controllers
                 EgeResult? foundResult = db.EgeResults.FirstOrDefault(x => x.Id == id);
                 if (foundResult != null)
                 {
-                    return View((foundResult.Id, foundResult.Year));
+                    return View(foundResult.Year);
                 }
                 else
                 {
@@ -140,7 +140,7 @@ namespace SchoolWeb.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ActionName("DeleteEgeYear")]
-        public IActionResult DeleteEgeYearPOST(int id)
+        public async Task<IActionResult> DeleteEgeYearPOST(int id)
         {
             if (SignInManager.IsSignedIn(User))
             {
@@ -148,7 +148,7 @@ namespace SchoolWeb.Controllers
                 if (foundResult != null)
                 {
                     db.EgeResults.Remove(foundResult);
-                    db.SaveChanges();
+                    await db.SaveChangesAsync();
                     return RedirectToAction(controllerName: "Education", actionName: "Graduates");
                 }
                 else
@@ -163,9 +163,9 @@ namespace SchoolWeb.Controllers
         }
         #endregion
 
-        #region SchoolAdminisrator
+        #region Adminisrator
 
-        public IActionResult AddSchoolAdminisrator()
+        public IActionResult AddAdminisrator()
         {
             if (SignInManager.IsSignedIn(User))
             {
@@ -177,7 +177,30 @@ namespace SchoolWeb.Controllers
             }
         }
 
-        public IActionResult EditSchoolAdminisrator()
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddAdminisrator(Administration administration)
+        {
+            if (SignInManager.IsSignedIn(User))
+            {
+                if (ModelState.IsValid)
+                {
+                    await db.SchoolAdministration.AddAsync(administration);
+                    await db.SaveChangesAsync();
+                    return RedirectToAction(controllerName: "Home", actionName: "Staff");
+                }
+                else
+                {
+                    return View();
+                }
+            }
+            else
+            {
+                return RedirectToAction("NoPermissions");
+            }
+        }
+
+        public IActionResult EditAdminisrator()
         {
             if (SignInManager.IsSignedIn(User))
             {
@@ -189,11 +212,44 @@ namespace SchoolWeb.Controllers
             }
         }
 
-        public IActionResult DeleteSchoolAdminisrator()
+        public IActionResult DeleteAdminisrator(int id)
         {
             if (SignInManager.IsSignedIn(User))
             {
-                return View();
+                Administration? foundAdmin = db.SchoolAdministration.FirstOrDefault(x=>x.Id == id);
+                if (foundAdmin != null)
+                {
+                    return View((object)foundAdmin.Name);
+                }
+                else
+                {
+                    return RedirectToAction("ElementNotFound");
+                }
+            }
+            else
+            {
+                return RedirectToAction("NoPermissions");
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ActionName("DeleteAdminisrator")]
+        public async Task<IActionResult> DeleteAdminisratorPOST(int id)
+        {
+            if (SignInManager.IsSignedIn(User))
+            {
+                Administration? foundAdmin = db.SchoolAdministration.FirstOrDefault(x => x.Id == id);
+                if (foundAdmin != null)
+                {
+                    db.SchoolAdministration.Remove(foundAdmin);
+                    await db.SaveChangesAsync();
+                    return RedirectToAction(controllerName: "Home", actionName: "Staff");
+                }
+                else
+                {
+                    return RedirectToAction("ElementNotFound");
+                }
             }
             else
             {
@@ -203,9 +259,9 @@ namespace SchoolWeb.Controllers
 
         #endregion
 
-        #region SchoolTeacher
+        #region Teacher
 
-        public IActionResult AddSchoolTeacher()
+        public IActionResult AddTeacher()
         {
             if (SignInManager.IsSignedIn(User))
             {
@@ -217,7 +273,30 @@ namespace SchoolWeb.Controllers
             }
         }
 
-        public IActionResult EditSchoolTeacher()
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddTeacher(Staff staff)
+        {
+            if (SignInManager.IsSignedIn(User))
+            {
+                if (ModelState.IsValid)
+                {
+                    await db.SchoolStaff.AddAsync(staff);
+                    await db.SaveChangesAsync();
+                    return RedirectToAction(controllerName: "Home", actionName: "Staff");
+                }
+                else
+                {
+                    return View();
+                }
+            }
+            else
+            {
+                return RedirectToAction("NoPermissions");
+            }
+        }
+
+        public IActionResult EditTeacher()
         {
             if (SignInManager.IsSignedIn(User))
             {
@@ -229,11 +308,44 @@ namespace SchoolWeb.Controllers
             }
         }
 
-        public IActionResult DeleteSchoolTeacher()
+        public IActionResult DeleteTeacher(int id)
         {
             if (SignInManager.IsSignedIn(User))
             {
-                return View();
+                Staff? foundStaff = db.SchoolStaff.FirstOrDefault(x => x.Id == id);
+                if (foundStaff != null)
+                {
+                    return View((object)foundStaff.Category);
+                }
+                else
+                {
+                    return RedirectToAction("ElementNotFound");
+                }
+            }
+            else
+            {
+                return RedirectToAction("NoPermissions");
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ActionName("DeleteTeacher")]
+        public async Task<IActionResult> DeleteTeacherPOST(int id)
+        {
+            if (SignInManager.IsSignedIn(User))
+            {
+                Staff? foundStaff = db.SchoolStaff.FirstOrDefault(x => x.Id == id);
+                if (foundStaff != null)
+                {
+                    db.SchoolStaff.Remove(foundStaff);
+                    await db.SaveChangesAsync();
+                    return RedirectToAction(controllerName: "Home", actionName: "Staff");
+                }
+                else
+                {
+                    return RedirectToAction("ElementNotFound");
+                }
             }
             else
             {

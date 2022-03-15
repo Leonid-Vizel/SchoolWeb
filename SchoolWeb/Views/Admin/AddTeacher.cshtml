@@ -1,0 +1,52 @@
+﻿@model Staff
+@{
+    ViewData["Title"] = "Добавление методического объединения";
+}
+
+<hr />
+<h2 class="text-center">Добавление методического объединения</h2>
+<hr />
+
+<form method="post">
+    <div class="form-group row">
+        <label asp-for="Category" class="col-sm-2 col-form-label mb-2"></label>
+        <div class="col-sm-10">
+            <input asp-for="Category" class="form-control">
+            <span asp-validation-for="Category" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="Total" class="col-sm-4 col-form-label mb-2"></label>
+        <div class="col-sm-2">
+            <input asp-for="Total" class="form-control">
+            <span asp-validation-for="Total" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="HasHighEdu" class="col-sm-4 col-form-label mb-2"></label>
+        <div class="col-sm-2">
+            <input asp-for="HasHighEdu" class="form-control">
+            <span asp-validation-for="HasHighEdu" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="HasHighQuality" class="col-sm-4 col-form-label mb-2"></label>
+        <div class="col-sm-2">
+            <input asp-for="HasHighQuality" class="form-control">
+            <span asp-validation-for="HasHighQuality" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="HasFirstQuality" class="col-sm-4 col-form-label mb-2"></label>
+        <div class="col-sm-2">
+            <input asp-for="HasFirstQuality" class="form-control">
+            <span asp-validation-for="HasFirstQuality" class="text-danger"></span>
+        </div>
+    </div>
+
+    <button type = "submit" class="btn btn-lg btn-outline-primary">Добавить</button>
+</form>
