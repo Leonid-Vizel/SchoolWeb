@@ -1,6 +1,7 @@
 ﻿@model ScheduleInfo
 @{
     ViewData["Title"] = "Годовой график";
+    int totalDays = 0;
 }
 <hr />
 <h2 class="text-center">Годовой календарный график школы "Елена-Сервис"</h2>
@@ -181,6 +182,7 @@
             <td>@Model.Quarter1End.ToString("dd.MM.yyyy")</td>
             @{
                 days = @Model.Quarter1End.Subtract(Model.Quarter1Start).Days + 1;
+                totalDays += days;
                 weeks = days / 7;
                 days %= 7;
                 if (days == 0)
@@ -199,6 +201,7 @@
             <td>@Model.Quarter2End.ToString("dd.MM.yyyy")</td>
             @{
                 days = @Model.Quarter2End.Subtract(Model.Quarter2Start).Days + 1;
+                totalDays += days;
                 weeks = days / 7;
                 days %= 7;
                 if (days == 0)
@@ -217,6 +220,7 @@
             <td>@Model.Quarter3End.ToString("dd.MM.yyyy")</td>
             @{
                 days = @Model.Quarter3End.Subtract(Model.Quarter3Start).Days + 1;
+                totalDays += days;
                 weeks = days / 7;
                 days %= 7;
                 if (days == 0)
@@ -235,6 +239,7 @@
             <td>@Model.Quarter4End.ToString("dd.MM.yyyy")</td>
             @{
                 days = @Model.Quarter4End.Subtract(Model.Quarter4Start).Days + 1;
+                totalDays += days;
                 weeks = days / 7;
                 days %= 7;
                 if (days == 0)
@@ -251,7 +256,18 @@
             <td bgcolor="#FFFACD">ИТОГО:</td>
             <td>@Model.Quarter1Start.ToString("dd.MM.yyyy")</td>
             <td>@Model.Quarter4End.ToString("dd.MM.yyyy")</td>
-            <td>@Model.YearDuration2_8 @WordHelp.Inflect(Model.YearDuration2_8,"недель","неделя","недели")</td>
+            @{
+                weeks = totalDays / 7;
+                totalDays %= 7;
+                if (totalDays == 0)
+                {
+                    <td>@weeks @WordHelp.Inflect(weeks,"недель","неделя","недели")</td>
+                }
+                else
+                {
+                    <td>@weeks @WordHelp.Inflect(weeks,"недель","неделя","недели") и @totalDays @WordHelp.Inflect(totalDays,"дней","день","дня")</td>
+                }
+            }
         </tr>
     </tbody>
 </table>

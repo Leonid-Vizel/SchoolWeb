@@ -89,14 +89,14 @@ namespace SchoolWeb.Models
             Holiday4Start = info.Holiday4Start;
             Holiday4End = info.Holiday4End;
 
-            Quarter1Start = info.Holiday1Start;
-            Quarter1End = info.Holiday1End;
-            Quarter2Start = info.Holiday2Start;
-            Quarter2End = info.Holiday2End;
-            Quarter3Start = info.Holiday3Start;
-            Quarter3End = info.Holiday3End;
-            Quarter4Start = info.Holiday4Start;
-            Quarter4End = info.Holiday4End;
+            Quarter1Start = info.Quarter1Start;
+            Quarter1End = info.Quarter1End;
+            Quarter2Start = info.Quarter2Start;
+            Quarter2End = info.Quarter2End;
+            Quarter3Start = info.Quarter3Start;
+            Quarter3End = info.Quarter3End;
+            Quarter4Start = info.Quarter4Start;
+            Quarter4End = info.Quarter4End;
         }
     }
 }
