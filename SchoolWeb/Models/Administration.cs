@@ -21,7 +21,6 @@ namespace SchoolWeb.Models
         public string Category { get; set; }
         [Required(ErrorMessage = "Номер телефона сотрудника должен быть обязательно указан")]
         [DisplayName("Номер телефона:")]
-        [DataType(DataType.PhoneNumber, ErrorMessage = "Значение не является валидным номером телефона")]
         public string Phone { get; set; }
         [Required(ErrorMessage = "Электронная почта сотрудника должна быть обязательно указана")]
         [DisplayName("Электронная почта:")]

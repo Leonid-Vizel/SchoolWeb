@@ -43,6 +43,8 @@
         <label asp-for="Phone" class="col-sm-2 col-form-label mb-2"></label>
         <div class="col-sm-3">
             <input asp-for="Phone" class="form-control">
+        </div>
+        <div class="col-sm-7">
             <span asp-validation-for="Phone" class="text-danger"></span>
         </div>
     </div>
@@ -50,9 +52,16 @@
         <label asp-for="Email" class="col-sm-2 col-form-label mb-2"></label>
         <div class="col-sm-4">
             <input asp-for="Email" class="form-control">
+        </div>
+        <div class="col-sm-6">
             <span asp-validation-for="Email" class="text-danger"></span>
         </div>
     </div>
 
     <button type = "submit" class="btn btn-lg btn-outline-primary">Добавить</button>
 </form>
+
+@section Scripts
+    {
+        <partial name="_ValidationScriptsPartial" />
+    }

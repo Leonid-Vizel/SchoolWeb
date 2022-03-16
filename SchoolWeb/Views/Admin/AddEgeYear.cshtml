@@ -8,10 +8,12 @@
         <label asp-for="Year" class="col-sm-1 col-form-label mb-2"></label>
         <div class="col-sm-2">
             <input asp-for="Year" class="form-control" placeholder="@DateTime.Now.Year">
+        </div>
+        <div class="col-sm-2">
             <span asp-validation-for="Year" class="text-danger"></span>
         </div>
         @*POST-Кнопка*@
-        <div class="col-9 text-end">
+        <div class="col-7 text-end">
             <button type="submit" class="btn btn-outline-primary btn-lg">Добавить</button>
         </div>
     </div>
@@ -23,6 +25,8 @@
         <label asp-for="Russian" class="col-sm-2 col-form-label mb-2"></label>
         <div class="col-sm-1">
             <input asp-for="Russian" class="form-control" placeholder="100">
+        </div>
+        <div class="col-sm-7">
             <span asp-validation-for="Russian" class="text-danger"></span>
         </div>
     </div>
@@ -32,6 +36,8 @@
         <label asp-for="MathBase" class="col-sm-2 col-form-label mb-2"></label>
         <div class="col-sm-1">
             <input asp-for="MathBase" class="form-control" placeholder="100">
+        </div>
+        <div class="col-sm-7">
             <span asp-validation-for="MathBase" class="text-danger"></span>
         </div>
     </div>
@@ -41,6 +47,8 @@
         <label asp-for="MathProfi" class="col-sm-2 col-form-label mb-2"></label>
         <div class="col-sm-1">
             <input asp-for="MathProfi" class="form-control" placeholder="100">
+        </div>
+        <div class="col-sm-7">
             <span asp-validation-for="MathProfi" class="text-danger"></span>
         </div>
     </div>
@@ -50,6 +58,8 @@
         <label asp-for="History" class="col-sm-2 col-form-label mb-2"></label>
         <div class="col-sm-1">
             <input asp-for="History" class="form-control" placeholder="100">
+        </div>
+        <div class="col-sm-7">
             <span asp-validation-for="History" class="text-danger"></span>
         </div>
     </div>
@@ -59,6 +69,8 @@
         <label asp-for="SocialStudies" class="col-sm-2 col-form-label mb-2"></label>
         <div class="col-sm-1">
             <input asp-for="SocialStudies" class="form-control" placeholder="100">
+        </div>
+        <div class="col-sm-7">
             <span asp-validation-for="SocialStudies" class="text-danger"></span>
         </div>
     </div>
@@ -68,6 +80,8 @@
         <label asp-for="Physics" class="col-sm-2 col-form-label mb-2"></label>
         <div class="col-sm-1">
             <input asp-for="Physics" class="form-control" placeholder="100">
+        </div>
+        <div class="col-sm-7">
             <span asp-validation-for="Physics" class="text-danger"></span>
         </div>
     </div>
@@ -77,6 +91,8 @@
         <label asp-for="Chemistry" class="col-sm-2 col-form-label mb-2"></label>
         <div class="col-sm-1">
             <input asp-for="Chemistry" class="form-control" placeholder="100">
+        </div>
+        <div class="col-sm-7">
             <span asp-validation-for="Chemistry" class="text-danger"></span>
         </div>
     </div>
@@ -86,6 +102,8 @@
         <label asp-for="Geography" class="col-sm-2 col-form-label mb-2"></label>
         <div class="col-sm-1">
             <input asp-for="Geography" class="form-control" placeholder="100">
+        </div>
+        <div class="col-sm-7">
             <span asp-validation-for="Geography" class="text-danger"></span>
         </div>
     </div>
@@ -95,6 +113,8 @@
         <label asp-for="Biology" class="col-sm-2 col-form-label mb-2"></label>
         <div class="col-sm-1">
             <input asp-for="Biology" class="form-control" placeholder="100">
+        </div>
+        <div class="col-sm-7">
             <span asp-validation-for="Biology" class="text-danger"></span>
         </div>
     </div>
@@ -104,6 +124,8 @@
         <label asp-for="Informatics" class="col-sm-2 col-form-label mb-2"></label>
         <div class="col-sm-1">
             <input asp-for="Informatics" class="form-control" placeholder="100">
+        </div>
+        <div class="col-sm-7">
             <span asp-validation-for="Informatics" class="text-danger"></span>
         </div>
     </div>
@@ -113,6 +135,8 @@
         <label asp-for="English" class="col-sm-2 col-form-label mb-2"></label>
         <div class="col-sm-1">
             <input asp-for="English" class="form-control" placeholder="100">
+        </div>
+        <div class="col-sm-7">
             <span asp-validation-for="English" class="text-danger"></span>
         </div>
     </div>
@@ -122,7 +146,14 @@
         <label asp-for="Literature" class="col-sm-2 col-form-label mb-2"></label>
         <div class="col-sm-1">
             <input asp-for="Literature" class="form-control" placeholder="100">
+        </div>
+        <div class="col-sm-7">
             <span asp-validation-for="Literature" class="text-danger"></span>
         </div>
     </div>
 </form>
+
+@section Scripts
+    {
+        <partial name="_ValidationScriptsPartial" />
+    }

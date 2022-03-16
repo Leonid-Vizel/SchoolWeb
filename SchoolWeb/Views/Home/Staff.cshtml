@@ -1,60 +1,119 @@
-﻿@model TotalStaff
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@model TotalStaff
 @{
     ViewData["Title"] = "Педагогический состав";
+    bool isSinged = SignInManager.IsSignedIn(User);
 }
 
 <hr />
 <h2 class="text-center">Администрация и педагогический состав</h2>
 <hr />
 
-<h4 class="text-center">Администрация</h4>
+@if (isSinged)
+{
+    <div class="row">
+        <div class="col-6">
+            <h4 class="text-left">Администрация</h4>
+        </div>
+        <div class="col-6 text-end">
+            <a asp-controller="Admin" asp-action="AddAdminisrator" class="btn btn-outline-primary">
+                <i class="bi bi-plus-circle-fill"></i> Добавить
+            </a>
+        </div>
+    </div>
+}
+else
+{
+    <h4 class="text-center">Администрация</h4>
+}
 
 <table class="table-bordered" cellpadding="2" width="100%">
     <tbody>
         <tr>
-            <td bgcolor = "#FFFACD"><b>Должность</b></td>
-            <td bgcolor = "#FFFACD"><b>Ф.И.О</b></td>
-            <td bgcolor = "#FFFACD"><b>Образование</b></td>
-            <td bgcolor = "#FFFACD"><b>Кв. категория</b></td>
-            <td bgcolor = "#FFFACD"><b>Телефон</b></td>
-            <td bgcolor = "#FFFACD"><b>Почта</b></td>
+            <td bgcolor="#FFFACD"><b>Должность</b></td>
+            <td bgcolor="#FFFACD"><b>Ф.И.О</b></td>
+            <td bgcolor="#FFFACD"><b>Образование</b></td>
+            <td bgcolor="#FFFACD"><b>Кв. категория</b></td>
+            <td bgcolor="#FFFACD"><b>Телефон</b></td>
+            <td bgcolor="#FFFACD"><b>Почта</b></td>
+            @if (isSinged)
+            {
+                <td bgcolor="#FFFACD"><b>Действия</b></td>
+            }
         </tr>
         @foreach (Administration admin in Model.Administration)
         {
             <tr>
-                <td bgcolor = "#FFFACD"><b>@admin.Position</b></td>
+                <td bgcolor="#FFFACD"><b>@admin.Position</b></td>
                 <td>@admin.Name</td>
                 <td>@admin.Education</td>
                 <td>@admin.Category</td>
                 <td>@admin.Phone</td>
                 <td>@admin.Email</td>
+                @if (isSinged)
+                {
+                    <td>
+                        <a asp-controller="Admin" asp-action="EditAdminisrator" asp-route-id="@admin.Id" class="btn btn-outline-warning btn-sm"><i class="bi bi-pencil"></i></a>
+                        <a asp-controller="Admin" asp-action="DeleteAdminisrator" asp-route-id="@admin.Id" class="btn btn-outline-danger btn-sm"><i class="bi bi-trash"></i></a>
+                    </td>
+                }
             </tr>
         }
     </tbody>
 </table>
 <br>
-<h4 class="text-center">Педагогический состав</h4>
+
+@if (isSinged)
+{
+    <div class="row">
+        <div class="col-6">
+            <h4 class="text-left">Педагогический соста</h4>
+        </div>
+        <div class="col-6 text-end">
+            <a asp-controller="Admin" asp-action="AddTeacher" class="btn btn-outline-primary">
+                <i class="bi bi-plus-circle-fill"></i> Добавить
+            </a>
+        </div>
+    </div>
+}
+else
+{
+    <h4 class="text-center">Педагогический соста</h4>
+}
+
 <table class="table-bordered" cellpadding="2" width="100%">
     <tbody>
         <tr class="text-center">
-            <td bgcolor = "#FFFACD" rowspan="2"><b>Название методического объединения</b></td>
-            <td bgcolor = "#FFFACD" rowspan="2"><b>Всего учителей</b></td>
-            <td bgcolor = "#FFFACD" colspan="3"><b>Из них</b></td>
+            <td bgcolor="#FFFACD" rowspan="2"><b>Название методического объединения</b></td>
+            <td bgcolor="#FFFACD" rowspan="2"><b>Всего учителей</b></td>
+            <td bgcolor="#FFFACD" colspan="3"><b>Из них</b></td>
+            @if (isSinged)
+            {
+                <td bgcolor="#FFFACD" rowspan="2"><b>Действия</b></td>
+            }
         </tr>
         <tr class="text-center">
-            <td bgcolor = "#FFFACD">Имеют высшее образование</td>
-            <td bgcolor = "#FFFACD">Имеют высшую квалификационную категорию</td>
-            <td bgcolor = "#FFFACD">Имеют I квалификационную категорию</td>
+            <td bgcolor="#FFFACD">Имеют высшее образование</td>
+            <td bgcolor="#FFFACD">Имеют высшую квалификационную категорию</td>
+            <td bgcolor="#FFFACD">Имеют I квалификационную категорию</td>
         </tr>
 
         @foreach (Staff staff in Model.Staff)
         {
             <tr>
-                <td bgcolor = "#FFFACD"><b>@staff.Category</b></td>
+                <td bgcolor="#FFFACD"><b>@staff.Category</b></td>
                 <td class="text-center">@staff.Total</td>
                 <td class="text-center">@staff.HasHighEdu</td>
                 <td class="text-center">@staff.HasHighQuality</td>
                 <td class="text-center">@staff.HasFirstQuality</td>
+                @if (isSinged)
+                {
+                    <td>
+                        <a asp-controller="Admin" asp-action="EditTeacher" asp-route-id="@staff.Id" class="btn btn-outline-warning btn-sm"><i class="bi bi-pencil"></i></a>
+                        <a asp-controller="Admin" asp-action="DeleteTeacher" asp-route-id="@staff.Id" class="btn btn-outline-danger btn-sm"><i class="bi bi-trash"></i></a>
+                    </td>
+                }
             </tr>
         }
     </tbody>
