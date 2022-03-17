@@ -5,69 +5,74 @@ namespace SchoolWeb.Models
 {
     public class ScheduleInfo
     {
-        [Required]
+        [Required(ErrorMessage = "Значение этого поля должно быть обязательной указано")]
+        [Range(0,52, ErrorMessage = "Учебный год не может длится дольше календарного года и не может быть отрицательной величиной")]
         [DisplayName("Продолжительность учебного года для учеников 1 классов")]
         public int YearDuration1 { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Значение этого поля должно быть обязательной указано")]
+        [Range(0, 52, ErrorMessage = "Учебный год не может длится дольше календарного года и не может быть отрицательной величиной")]
         [DisplayName("Продолжительность учебного года для учеников 2 - 8 классов")]
         public int YearDuration2_8 { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Значение этого поля должно быть обязательной указано")]
+        [Range(0, 52, ErrorMessage = "Учебный год не может длится дольше календарного года и не может быть отрицательной величиной")]
         [DisplayName("Продолжительность учебного года для учеников 9 классов")]
         public int YearDuration9 { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Значение этого поля должно быть обязательной указано")]
+        [Range(0, 52, ErrorMessage = "Учебный год не может длится дольше календарного года и не может быть отрицательной величиной")]
         [DisplayName("Продолжительность учебного года для учеников 10 классов")]
         public int YearDuration10 { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Значение этого поля должно быть обязательной указано")]
+        [Range(0, 52, ErrorMessage = "Учебный год не может длится дольше календарного года и не может быть отрицательной величиной")]
         [DisplayName("Продолжительность учебного года для учеников 11 классов")]
         public int YearDuration11 { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Значение этого поля должно быть обязательной указано")]
         [DisplayName("Начало")]
         public DateTime Holiday1Start { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Значение этого поля должно быть обязательной указано")]
         [DisplayName("Конец")]
         public DateTime Holiday1End { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Значение этого поля должно быть обязательной указано")]
         [DisplayName("Начало")]
         public DateTime Holiday2Start { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Значение этого поля должно быть обязательной указано")]
         [DisplayName("Конец")]
         public DateTime Holiday2End { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Значение этого поля должно быть обязательной указано")]
         [DisplayName("Начало")]
         public DateTime Holiday3Start { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Значение этого поля должно быть обязательной указано")]
         [DisplayName("Конец")]
         public DateTime Holiday3End { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Значение этого поля должно быть обязательной указано")]
         [DisplayName("Начало")]
         public DateTime Holiday4Start { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Значение этого поля должно быть обязательной указано")]
         [DisplayName("Конец")]
         public DateTime Holiday4End { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Значение этого поля должно быть обязательной указано")]
         [DisplayName("Начало")]
         public DateTime Quarter1Start { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Значение этого поля должно быть обязательной указано")]
         [DisplayName("Конец")]
         public DateTime Quarter1End { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Значение этого поля должно быть обязательной указано")]
         [DisplayName("Начало")]
         public DateTime Quarter2Start { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Значение этого поля должно быть обязательной указано")]
         [DisplayName("Конец")]
         public DateTime Quarter2End { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Значение этого поля должно быть обязательной указано")]
         [DisplayName("Начало")]
         public DateTime Quarter3Start { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Значение этого поля должно быть обязательной указано")]
         [DisplayName("Конец")]
         public DateTime Quarter3End { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Значение этого поля должно быть обязательной указано")]
         [DisplayName("Начало")]
         public DateTime Quarter4Start { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Значение этого поля должно быть обязательной указано")]
         [DisplayName("Конец")]
         public DateTime Quarter4End { get; set; }
 
