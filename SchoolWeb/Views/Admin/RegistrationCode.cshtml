@@ -1,0 +1,26 @@
+﻿@using System.Diagnostics
+@model string
+@{
+    ViewData["Title"] = "Текущий код регистрации";
+}
+
+<script>
+    function SetClipboard()
+    {
+        navigator.clipboard.writeText('@Model')
+    }
+</script>
+
+<hr />
+<h2 class="text-center">Код регистрации</h2>
+<hr />
+
+@{
+    Debug.WriteLine(Model);
+}
+
+<div class="text-center">
+    <input hidden="hidden" id="copyElement" value="@Model" />
+    <a onclick="SetClipboard()" class="btn btn-outline-primary">Копировать</a>
+    <a class="btn btn-outline-success" asp-area="Identity" asp-page="/Account/Register">Регистрация</a>
+</div>

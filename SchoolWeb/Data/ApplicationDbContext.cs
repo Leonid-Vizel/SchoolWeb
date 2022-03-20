@@ -15,5 +15,6 @@ namespace SchoolWeb.Data
         public DbSet<OgeResult> OgeResults { get; set; }
         public DbSet<Staff> SchoolStaff { get; set; }
         public DbSet<Administration> SchoolAdministration { get; set; }
+        public DbSet<SettingOption> Settings { get; set; }
     }
 }

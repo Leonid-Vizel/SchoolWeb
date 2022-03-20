@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using SchoolWeb.Data;
 using SchoolWeb.Models;
+using System.Diagnostics;
+using System.Reflection;
 using System.Text.Json;
 
 namespace SchoolWeb.Controllers
@@ -112,7 +114,7 @@ namespace SchoolWeb.Controllers
             {
                 await db.EgeResults.AddAsync(result);
                 await db.SaveChangesAsync();
-                return RedirectToAction(controllerName:"Education", actionName:"Graduates");
+                return RedirectToAction(controllerName: "Education", actionName: "Graduates");
             }
             return View(result);
         }
@@ -207,7 +209,7 @@ namespace SchoolWeb.Controllers
         {
             if (SignInManager.IsSignedIn(User))
             {
-                Administration? foundAdmin = db.SchoolAdministration.FirstOrDefault(x=>x.Id == id);
+                Administration? foundAdmin = db.SchoolAdministration.FirstOrDefault(x => x.Id == id);
                 if (foundAdmin != null)
                 {
                     return View(foundAdmin);
@@ -252,7 +254,7 @@ namespace SchoolWeb.Controllers
         {
             if (SignInManager.IsSignedIn(User))
             {
-                Administration? foundAdmin = db.SchoolAdministration.FirstOrDefault(x=>x.Id == id);
+                Administration? foundAdmin = db.SchoolAdministration.FirstOrDefault(x => x.Id == id);
                 if (foundAdmin != null)
                 {
                     return View((object)foundAdmin.Name);
@@ -458,7 +460,7 @@ namespace SchoolWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult ResetSchedule(ScheduleInfo updateInfo)
+        public async Task<IActionResult> ResetSchedule(ScheduleInfo updateInfo)
         {
             if (SignInManager.IsSignedIn(User))
             {
@@ -499,11 +501,26 @@ namespace SchoolWeb.Controllers
                 #endregion
                 if (ModelState.IsValid)
                 {
-                    using (FileStream writeString = new FileStream("schedule.json", FileMode.OpenOrCreate))
+                    info.Copy(updateInfo);
+                    foreach (PropertyInfo propInfo in info.GetType().GetProperties())
                     {
-                        info.Copy(updateInfo);
-                        JsonSerializer.Serialize<ScheduleInfo>(writeString, info);
+                        SettingOption? option = db.Settings.FirstOrDefault(x => x.Name.Equals(propInfo.Name));
+                        if (option == null)
+                        {
+                            option = new SettingOption()
+                            {
+                                Name = propInfo.Name,
+                                Value = propInfo.GetValue(info).ToString()
+                            };
+                            await db.Settings.AddAsync(option);
+                        }
+                        else
+                        {
+                            option.Value = propInfo.GetValue(info).ToString();
+                            db.Settings.Update(option);
+                        }
                     }
+                    await db.SaveChangesAsync();
                     return RedirectToAction(controllerName: "Home", actionName: "Schedule");
                 }
                 else
@@ -518,5 +535,28 @@ namespace SchoolWeb.Controllers
         }
 
         #endregion
+
+        public async Task<IActionResult> RegistrationCode()
+        {
+            if (SignInManager.IsSignedIn(User))
+            {
+                SettingOption codeOption = db.Settings.FirstOrDefault(x => x.Name.Equals("Code"));
+                if (codeOption == null)
+                {
+                    codeOption = new SettingOption()
+                    {
+                        Name = "Code",
+                        Value = RandomGen.GenerateRandomString()
+                    };
+                    await db.Settings.AddAsync(codeOption);
+                    await db.SaveChangesAsync();
+                }
+                return View((object)codeOption.Value);
+            }
+            else
+            {
+                return RedirectToAction("NoPermissions");
+            }
+        }
     }
 }

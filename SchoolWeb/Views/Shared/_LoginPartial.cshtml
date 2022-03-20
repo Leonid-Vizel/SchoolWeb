@@ -7,6 +7,9 @@
 @if (SignInManager.IsSignedIn(User))
 {
     <li class="nav-item">
+        <a class="nav-link" id="registerCode" asp-controller = "Admin" asp-action = "RegistrationCode">Код</a>
+    </li>
+    <li class="nav-item">
         <a class="nav-link" id="register" asp-area="Identity" asp-page="/Account/Register" asp-route-returnUrl="@Context.Request.Path">Добавить админа</a>
     </li>
     <li class="nav-item">
