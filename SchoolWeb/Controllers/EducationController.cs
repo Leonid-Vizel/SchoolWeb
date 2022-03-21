@@ -42,8 +42,8 @@ namespace SchoolWeb.Controllers
         {
             return View(new TotalResults()
             {
-                Ege = db.EgeResults,
-                Oge = db.OgeResults
+                Ege = db.EgeResults.OrderBy(x => x.Year),
+                Oge = db.OgeResults.OrderBy(x => x.Year)
             });
         }
 
