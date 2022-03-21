@@ -97,29 +97,29 @@
 
             <div class="input-wrapper mt-3">
                 <input asp-for="Input.Email" placeholder="Почта@mail.ru" aria-required="true" />
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
+            <span asp-validation-for="Input.Email" class="text-danger"></span>
 
             <div class="input-wrapper">
                 <input asp-for="Input.Password" id="password" placeholder="Введите пароль" aria-required="true" />
                 <div class="input-icon" onclick="togglePassword()">
                     <img id="icon" src="/img/eye.png">
                 </div>
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
             </div>
+            <span asp-validation-for="Input.Password" class="text-danger"></span>
 
             <div class="input-wrapper">
                 <input asp-for="Input.ConfirmPassword" id="confirm_password" placeholder="Подтвердите пароль" aria-required="true" />
                 <div class="input-icon" onclick="toggleConfirmPassword()">
                     <img id="confirm_icon" src="/img/eye.png">
                 </div>
-                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
+            <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
 
             <div class="input-wrapper">
                 <input asp-for="Input.RegistrationCode" id="regCode" placeholder="Код" aria-required="true" />
-                <span asp-validation-for="Input.RegistrationCode" class="text-danger"></span>
             </div>
+            <span asp-validation-for="Input.RegistrationCode" class="text-danger"></span>
             <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-outline-dark">Зарегистрировать</button>
         </form>
     </div>
