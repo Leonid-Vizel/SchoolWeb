@@ -44,3 +44,33 @@ body {
     border: 1px solid #808080;
     padding: 3px;
 }
+
+.mrq-container {
+    overflow: hidden;
+    position: relative;
+    background: rgb(255, 237, 131);
+}
+
+    .mrq-container::before {
+        content: '\00a0';
+    }
+
+.mrq-scrolling {
+    animation: mrq 20s linear infinite;
+    display: block;
+    min-width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    white-space: nowrap;
+}
+
+@keyframes mrq {
+    from {
+        transform: translateX(100%);
+    }
+
+    to {
+        transform: translateX(-100%);
+    }
+}

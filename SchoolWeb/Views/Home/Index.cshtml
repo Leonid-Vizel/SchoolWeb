@@ -1,12 +1,15 @@
 ﻿@{
     ViewData["Title"] = "Главная";
 }
+
 <div class="text-center">
     <h1 class="display-5">Добро пожаловать на сайт Школы "Елена-Сервис"!</h1>
 </div>
-<hr bgcolor="#ffed83">
-<marquee bgcolor="#ffed83"><h5><b><i>Non scholae, sed vitae discimus (Мы учимся не для школы, а для жизни)</i></b></h5></marquee>
-<hr bgcolor="#ffed83">
+<hr>
+<div class="mrq-container" style="height:28px;">
+    <div class="mrq-scrolling"><h5><b><i>Non scholae, sed vitae discimus (Мы учимся не для школы, а для жизни)</i></b></h5></div>
+</div>
+<hr>
 <h5 class="text-left">
     <p>
         Школа «Елена–Сервис» была образована 27 декабря 1992 года в городе Казании и является
@@ -25,7 +28,7 @@
         России и других стран.
     </p>
     <p>
-        <a asp-controller = "Home" asp-action="Location">Расположена школа</a> в тихой зеленой зоне в центре Московского района
+        <a asp-controller="Home" asp-action="Location">Расположена школа</a> в тихой зеленой зоне в центре Московского района
         города Казани, недалеко от пересечений таких крупных улиц, как <b>Декабристов</b> и <b>Гагарина</b>.
     </p>
     <p>
@@ -49,9 +52,9 @@
         <b>Продолжительность уроков 45 минут</b>. Учебные и каникулярные периоды те же, что
         и для всех школ России.
     </p>
-    <p class = "p-no-space">
+    <p class="p-no-space">
         В школьные помещения входят <b>18 учебных кабинетов</b>, а также:
-        <ul class = "ul-no-space">
+        <ul class="ul-no-space">
             <li><i>Компьютерный класс</i></li>
             <li><i>WIFI зона</i></li>
             <li><i>Спортивный зал</i></li>
