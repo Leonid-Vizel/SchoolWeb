@@ -1,4 +1,8 @@
-﻿<style>
+﻿@model IEnumerable<PhotoModel>
+@{
+    ViewData["Title"] = "Галерея";
+}
+<style>
     .fullscreen:-webkit-full-screen {
         width: auto !important;
         height: auto !important;
@@ -16,12 +20,35 @@
         height: auto !important;
         margin: auto !important;
     }
+
+    .visible {
+        height: 3em;
+        width: 10em;
+    }
+
+    .thumbnails {
+        margin: -3em 0 0 -2em;
+        text-align: center;
+    }
+
+    .thumbnail {
+        text-decoration: none;
+        display: -moz-inline-box;
+        display: inline-block;
+        vertical-align: top;
+        text-align: left;
+        margin: 3em 0 0 2em;
+    }
+
+        .thumbnail .r {
+            width: 14em;
+            float: left;
+        }
 </style>
 <script>
-        function makeFullScreen()
-        {
-         var divObj = document.getElementById("theImage");
-       //Use the specification method before using prefixed versions
+    function makeFullScreen(id)
+    {
+      var divObj = document.getElementById("theImage-" + id);
       if (divObj.requestFullscreen) {
         divObj.requestFullscreen();
       }
@@ -34,10 +61,46 @@
       else if (divObj.webkitRequestFullscreen) {
         divObj.webkitRequestFullscreen();
       } else {
-        console.log("Fullscreen API is not supported");
+          window.open(divObj.getAttribute("src"), '_blank').focus();
       }
-
     }
 </script>
 
-<img id="theImage" style="width:200px; height:auto;" class="fullscreen" src="~/img/health.jpg" onClick="makeFullScreen()">
+<hr />
+<h2 class="text-center">Галерея</h2>
+<hr />
+
+@if (Model != null && Model.Count() > 0)
+{
+    <p>
+    @foreach (PhotoModel photo in Model)
+    {
+        <div title="@photo.Description" class="visible text-center" style = "width:200px; display: inline-block; margin-left:10px;margin-right:10px;">
+            <figure class="sign" style="width:200px;">
+                <img id="theImage-@photo.Id" style="width:200px; height:auto;" class="fullscreen" src="@photo.ToString()" onClick="makeFullScreen(@photo.Id)">
+                <figcaption>@photo.Title</figcaption>
+            </figure>
+        </div>
+    }
+    </p>
+
+
+    @*<div class="thumbnails">
+        @foreach (PhotoModel photo in Model)
+        {
+            <ins class="thumbnail">
+                <div class="r">
+                    <div title="@photo.Description" class="visible text-center">
+                        <img id="theImage-@photo.Id" style="width:200px; height:auto;" class="fullscreen" src="@photo.ToString()" onClick="makeFullScreen(@photo.Id)">
+                        <br>
+                        <h6 style="width:200px;">@photo.Title</h6>
+                    </div>
+                </div>
+            </ins>
+        }
+    </div>*@
+}
+else
+{
+    <h3 class="text-center">Пока в галерее нет картинок</h3>
+}
