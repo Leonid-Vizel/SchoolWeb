@@ -18,7 +18,7 @@ namespace SchoolWeb.Controllers
         public IActionResult Index(int id = 0) // page (Id для красоты)
         {
             //int cock = 0;
-            //foreach (string path in Directory.GetFiles(@"C:\Users\lorda\Desktop\Фото для сайта"))
+            //foreach (string path in Directory.GetFiles(""))
             //{
             //    using (Image btmp = Image.FromFile(path))
             //    {
@@ -36,11 +36,14 @@ namespace SchoolWeb.Controllers
             //        }
             //    }
             //}
+            //db.SaveChanges();
             int allCount = db.Photoes.Count();
             if (id * 30 >= allCount)
             {
-                id = allCount / 30 * 30;
+                id = allCount / 30;
+                return RedirectToAction("Index", new { id = id });
             }
+            ViewData["total"] = allCount / 30;
             return View(db.Photoes.Skip(id * 30).Take(30));
         }
     }
