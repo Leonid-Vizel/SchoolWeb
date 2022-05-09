@@ -17,6 +17,7 @@ namespace SchoolWeb.Controllers
 
         public IActionResult Index(int id = 0) // page (Id для красоты)
         {
+            //Это оставлю на стучай если что-то будет с базой не так
             //int cock = 0;
             //foreach (string path in Directory.GetFiles(""))
             //{
@@ -45,6 +46,19 @@ namespace SchoolWeb.Controllers
             }
             ViewData["total"] = allCount / 30;
             return View(db.Photoes.Skip(id * 30).Take(30));
+        }
+
+        public IActionResult Photo(int id = 0)
+        {
+            PhotoModel? model = db.Photoes.FirstOrDefault(x=>x.Id == id);
+            if (model != null)
+            {
+                return View(model);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
     }
 }

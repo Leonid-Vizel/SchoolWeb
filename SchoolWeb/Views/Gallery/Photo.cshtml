@@ -1,0 +1,9 @@
+﻿@model PhotoModel
+@{
+    ViewData["Title"] = Model.Title;
+}
+<div class = "text-center">
+    <h1>@Model.Title</h1>
+    <h3>@Model.Description</h3>
+</div>
+<img src="@Model.ToString()">

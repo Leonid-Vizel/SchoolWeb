@@ -96,22 +96,6 @@
         }
     </p>
 
-
-    @*<div class="thumbnails">
-        @foreach (PhotoModel photo in Model)
-        {
-        <ins class="thumbnail">
-        <div class="r">
-        <div title="@photo.Description" class="visible text-center">
-        <img id="theImage-@photo.Id" style="width:200px; height:auto;" class="fullscreen" src="@photo.ToString()" onClick="makeFullScreen(@photo.Id)">
-        <br>
-        <h6 style="width:200px;">@photo.Title</h6>
-        </div>
-        </div>
-        </ins>
-        }
-        </div>*@
-
     <div class="row">
         <div class="col-md-2"></div>
         <div class="btn-group btn-group-lg col-md-8" role="group">
@@ -122,9 +106,6 @@
         </div>
         <div class="col-md-2"></div>
     </div>
-
-
-
 }
 else
 {
