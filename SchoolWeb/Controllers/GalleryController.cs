@@ -1,18 +1,21 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using SchoolWeb.Data;
 using SchoolWeb.Models;
-using System.Drawing;
-using System.Drawing.Imaging;
 
 namespace SchoolWeb.Controllers
 {
     public class GalleryController : Controller
     {
         private ApplicationDbContext db;
+        private SignInManager<IdentityUser> signInManager;
+        private UserManager<IdentityUser> userManager;
 
-        public GalleryController(ApplicationDbContext db)
+        public GalleryController(ApplicationDbContext db, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
         {
             this.db = db;
+            this.signInManager = signInManager;
+            this.userManager = userManager;
         }
 
         public IActionResult Index(int id = 0) // page (Id для красоты)
@@ -58,6 +61,42 @@ namespace SchoolWeb.Controllers
             else
             {
                 return NotFound();
+            }
+        }
+
+        public IActionResult Add()
+        {
+            if (signInManager.IsSignedIn(User))
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction(controllerName: "Admin", actionName: "NoPermissions");
+            }
+        }
+
+        public IActionResult Delete()
+        {
+            if (signInManager.IsSignedIn(User))
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction(controllerName: "Admin", actionName: "NoPermissions");
+            }
+        }
+
+        public IActionResult Edit()
+        {
+            if (signInManager.IsSignedIn(User))
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction(controllerName: "Admin", actionName: "NoPermissions");
             }
         }
     }
