@@ -1,3 +1,29 @@
-﻿@{
-
+﻿@using SchoolWeb.Models;
+@model PhotoModel
+@{
+    ViewData["Title"] = "Добавление фото";
 }
+<h2>Добавление фото в галерею школы</h2>
+<form method = "post" enctype="multipart/form-data">
+    <div class = "form-group">
+        <label asp-for = "Title" class = "control-label"></label>
+        <input asp-for = "Title" class = "form-control"/>
+        <span asp-validation-for = "Title" class = "text-danger"></span>
+    </div>
+    <div class = "form-group">
+        <label asp-for = "Description" class = "control-label"></label>
+        <input asp-for = "Description" class = "form-control"/>
+        <span asp-validation-for = "Description" class = "text-danger"></span>
+    </div>
+    <div class = "form-group mt-2">
+        <input asp-for = "ImageFile" accept = "image/*"/>
+        <span asp-validation-for = "ImageFile" class = "text-danger"></span>
+    </div>
+    <button type = "submit" class = "btn btn-outline-primary mt-2">Добавить</button>
+</form>
+
+
+@section Scripts
+    {
+        <partial name="_ValidationScriptsPartial" />
+    }

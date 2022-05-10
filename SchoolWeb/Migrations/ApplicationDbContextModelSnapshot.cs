@@ -258,7 +258,7 @@ namespace SchoolWeb.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SchoolAdministration");
+                    b.ToTable("SchoolAdministration", (string)null);
                 });
 
             modelBuilder.Entity("SchoolWeb.Models.EgeResult", b =>
@@ -310,7 +310,7 @@ namespace SchoolWeb.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("EgeResults");
+                    b.ToTable("EgeResults", (string)null);
                 });
 
             modelBuilder.Entity("SchoolWeb.Models.OgeResult", b =>
@@ -356,7 +356,7 @@ namespace SchoolWeb.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("OgeResults");
+                    b.ToTable("OgeResults", (string)null);
                 });
 
             modelBuilder.Entity("SchoolWeb.Models.PhotoModel", b =>
@@ -367,11 +367,11 @@ namespace SchoolWeb.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<byte[]>("Data")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max)");
-
                     b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -381,7 +381,7 @@ namespace SchoolWeb.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Photoes");
+                    b.ToTable("Photoes", (string)null);
                 });
 
             modelBuilder.Entity("SchoolWeb.Models.SettingOption", b =>
@@ -402,7 +402,7 @@ namespace SchoolWeb.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Settings");
+                    b.ToTable("Settings", (string)null);
                 });
 
             modelBuilder.Entity("SchoolWeb.Models.Staff", b =>
@@ -431,7 +431,7 @@ namespace SchoolWeb.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SchoolStaff");
+                    b.ToTable("SchoolStaff", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

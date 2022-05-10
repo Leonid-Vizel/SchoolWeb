@@ -3,7 +3,6 @@ using SchoolWeb.Data;
 using Microsoft.AspNetCore.Identity;
 using SchoolWeb.Models;
 using System.Reflection;
-using System.Diagnostics;
 using SchoolWeb;
 
 var builder = WebApplication.CreateBuilder(args);

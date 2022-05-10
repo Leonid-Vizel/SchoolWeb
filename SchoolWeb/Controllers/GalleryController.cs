@@ -9,13 +9,13 @@ namespace SchoolWeb.Controllers
     {
         private ApplicationDbContext db;
         private SignInManager<IdentityUser> signInManager;
-        private UserManager<IdentityUser> userManager;
+        private IWebHostEnvironment environment;
 
-        public GalleryController(ApplicationDbContext db, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
+        public GalleryController(ApplicationDbContext db, SignInManager<IdentityUser> signInManager, IWebHostEnvironment environment)
         {
             this.db = db;
             this.signInManager = signInManager;
-            this.userManager = userManager;
+            this.environment = environment;
         }
 
         public IActionResult Index(int id = 0) // page (Id для красоты)
@@ -42,6 +42,10 @@ namespace SchoolWeb.Controllers
             //}
             //db.SaveChanges();
             int allCount = db.Photoes.Count();
+            if (allCount == 0)
+            {
+                return View(null);
+            }
             if (id * 30 >= allCount)
             {
                 id = allCount / 30;
@@ -53,7 +57,7 @@ namespace SchoolWeb.Controllers
 
         public IActionResult Photo(int id = 0)
         {
-            PhotoModel? model = db.Photoes.FirstOrDefault(x=>x.Id == id);
+            PhotoModel? model = db.Photoes.FirstOrDefault(x => x.Id == id);
             if (model != null)
             {
                 return View(model);
@@ -73,6 +77,41 @@ namespace SchoolWeb.Controllers
             else
             {
                 return RedirectToAction(controllerName: "Admin", actionName: "NoPermissions");
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Add([Bind("Title,Description,ImageFile")]PhotoModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                if (db.Photoes.Select(x => x.Title).Any(x => x.Equals(model.Title)))
+                {
+                    ModelState.AddModelError("Title", "Это название уже использовано");
+                    return View(model);
+                }
+                if (signInManager.IsSignedIn(User))
+                {
+                    string wwwRootImagePath = $"{environment.WebRootPath}/gallery/";
+                    string fileExtention = Path.GetExtension(model.ImageFile.FileName);
+                    model.ImageName = $"{model.Title}{fileExtention}";
+                    using (var imageCreateStream = new FileStream(Path.Combine(wwwRootImagePath, $"{model.ImageName}"), FileMode.Create))
+                    {
+                        await model.ImageFile.CopyToAsync(imageCreateStream);
+                    }
+                    await db.Photoes.AddAsync(model);
+                    await db.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return RedirectToAction(controllerName: "Admin", actionName: "NoPermissions");
+                }
+            }
+            else
+            {
+                return View(model);
             }
         }
 
