@@ -17,5 +17,6 @@ namespace SchoolWeb.Data
         public DbSet<Administration> SchoolAdministration { get; set; }
         public DbSet<SettingOption> Settings { get; set; }
         public DbSet<PhotoModel> Photoes { get; set; }
+        public DbSet<DocumentModel> Documents { get; set; }
     }
 }

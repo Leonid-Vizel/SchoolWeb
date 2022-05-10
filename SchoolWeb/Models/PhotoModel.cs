@@ -11,10 +11,10 @@ namespace SchoolWeb.Models
         [Key]
         public int Id { get; set; }
         [Required(ErrorMessage = "Укажите название для фото")]
-        [DisplayName("Название фото:")]
+        [DisplayName("Название:")]
         public string Title { get; set; }
         [Required(ErrorMessage = "Добавьте описание для фото")]
-        [DisplayName("Описание фото:")]
+        [DisplayName("Описание:")]
         public string Description { get; set; }
         [ValidateNever]
         public string ImageName { get; set; }
