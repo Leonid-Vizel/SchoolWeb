@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using SchoolWeb.Data;
 using SchoolWeb.Models;
 
@@ -18,29 +19,11 @@ namespace SchoolWeb.Controllers
             this.environment = environment;
         }
 
+        private bool CheckIfPhotoEditValid(ModelStateDictionary modelState)
+            => modelState["Title"]?.ValidationState == ModelValidationState.Valid && modelState["Description"]?.ValidationState == ModelValidationState.Valid;
+
         public IActionResult Index(int id = 0) // page (Id для красоты)
         {
-            //Это оставлю на стучай если что-то будет с базой не так
-            //int cock = 0;
-            //foreach (string path in Directory.GetFiles(""))
-            //{
-            //    using (Image btmp = Image.FromFile(path))
-            //    {
-            //        using (MemoryStream imgStream = new MemoryStream())
-            //        {
-            //            btmp.Save(imgStream, ImageFormat.Jpeg);
-            //            PhotoModel photo = new PhotoModel()
-            //            {
-            //                Title = $"Фото {++cock}",
-            //                Description = "Загруженное фото",
-            //                Data = imgStream.ToArray()
-            //            };
-            //            db.Photoes.Add(photo);
-            //            db.SaveChanges();
-            //        }
-            //    }
-            //}
-            //db.SaveChanges();
             int allCount = db.Photoes.Count();
             if (allCount == 0)
             {
@@ -82,7 +65,7 @@ namespace SchoolWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Add([Bind("Title,Description,ImageFile")]PhotoModel model)
+        public async Task<IActionResult> Add(PhotoModel model)
         {
             if (ModelState.IsValid)
             {
@@ -93,10 +76,10 @@ namespace SchoolWeb.Controllers
                 }
                 if (signInManager.IsSignedIn(User))
                 {
-                    string wwwRootImagePath = $"{environment.WebRootPath}/gallery/";
+                    string wwwRootImagePath = $"{environment.WebRootPath}\\gallery\\";
                     string fileExtention = Path.GetExtension(model.ImageFile.FileName);
                     model.ImageName = $"{model.Title}{fileExtention}";
-                    using (var imageCreateStream = new FileStream(Path.Combine(wwwRootImagePath, $"{model.ImageName}"), FileMode.Create))
+                    using (var imageCreateStream = new FileStream(Path.Combine(wwwRootImagePath, model.ImageName), FileMode.Create))
                     {
                         await model.ImageFile.CopyToAsync(imageCreateStream);
                     }
@@ -127,15 +110,70 @@ namespace SchoolWeb.Controllers
             }
         }
 
-        public IActionResult Edit()
+        public IActionResult Edit(int id = 0)
         {
             if (signInManager.IsSignedIn(User))
             {
-                return View();
+                PhotoModel? foundModel = db.Photoes.FirstOrDefault(x => x.Id == id);
+                if (foundModel == null)
+                {
+                    return NotFound();
+                }
+                return View(foundModel);
             }
             else
             {
                 return RedirectToAction(controllerName: "Admin", actionName: "NoPermissions");
+            }
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<IActionResult> Edit(PhotoModel model)
+        {
+            if (ModelState.IsValid || CheckIfPhotoEditValid(ModelState))
+            {
+                if (db.Photoes.Select(x => x.Title).Any(x => x.Equals(model.Title)))
+                {
+                    ModelState.AddModelError("Title", "Это название уже использовано");
+                    return View(model);
+                }
+                if (signInManager.IsSignedIn(User))
+                {
+                    PhotoModel? foundModel = db.Photoes.FirstOrDefault(x=>x.Id == model.Id);
+                    if (foundModel !=null)
+                    {
+                        string wwwRootImagePath = $"{environment.WebRootPath}\\gallery\\";
+                        string oldPath = Path.Combine(wwwRootImagePath, foundModel.ImageName);
+                        string newFileName = $"{model.Title}{Path.GetExtension(foundModel.ImageName)}";
+                        string newPath = Path.Combine(wwwRootImagePath, newFileName);
+                        try
+                        {
+                            System.IO.File.Copy(oldPath, newPath);
+                            System.IO.File.Delete(oldPath);
+                        }
+                        catch
+                        {
+                            ModelState.AddModelError("Title", "Некорректное название");
+                            return View(model);
+                        }
+
+                        foundModel.Title = model.Title;
+                        foundModel.Description = model.Description;
+                        foundModel.ImageName = newFileName;
+                        db.Photoes.Update(foundModel);
+                        await db.SaveChangesAsync();
+                    }
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return RedirectToAction(controllerName: "Admin", actionName: "NoPermissions");
+                }
+            }
+            else
+            {
+                return View(model);
             }
         }
     }
