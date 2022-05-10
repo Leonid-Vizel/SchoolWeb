@@ -98,11 +98,44 @@ namespace SchoolWeb.Controllers
             }
         }
 
-        public IActionResult Delete()
+        public IActionResult Delete(int id = 0)
         {
             if (signInManager.IsSignedIn(User))
             {
-                return View();
+                PhotoModel? foundModel = db.Photoes.FirstOrDefault(x => x.Id == id);
+                if (foundModel == null)
+                {
+                    return NotFound();
+                }
+                return View(id);
+            }
+            else
+            {
+                return RedirectToAction(controllerName: "Admin", actionName: "NoPermissions");
+            }
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        [ActionName("Delete")]
+        public async Task<IActionResult> DeletePost(int id = 0)
+        {
+            if (signInManager.IsSignedIn(User))
+            {
+                PhotoModel? foundModel = db.Photoes.FirstOrDefault(x => x.Id == id);
+                if (foundModel != null)
+                {
+                    string wwwRootImagePath = $"{environment.WebRootPath}\\gallery\\";
+                    string oldPath = Path.Combine(wwwRootImagePath, foundModel.ImageName);
+                    try
+                    {
+                        System.IO.File.Delete(oldPath);
+                    }
+                    catch { }
+                    db.Photoes.Remove(foundModel);
+                    await db.SaveChangesAsync();
+                }
+                return RedirectToAction("Index");
             }
             else
             {
