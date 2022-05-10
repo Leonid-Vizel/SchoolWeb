@@ -79,9 +79,17 @@ namespace SchoolWeb.Controllers
                     string wwwRootImagePath = $"{environment.WebRootPath}\\gallery\\";
                     string fileExtention = Path.GetExtension(model.ImageFile.FileName);
                     model.ImageName = $"{model.Title}{fileExtention}";
-                    using (var imageCreateStream = new FileStream(Path.Combine(wwwRootImagePath, model.ImageName), FileMode.Create))
+                    try
                     {
-                        await model.ImageFile.CopyToAsync(imageCreateStream);
+                        using (var imageCreateStream = new FileStream(Path.Combine(wwwRootImagePath, model.ImageName), FileMode.Create))
+                        {
+                            await model.ImageFile.CopyToAsync(imageCreateStream);
+                        }
+                    }
+                    catch
+                    {
+                        ModelState.AddModelError("Title", "Некорректное название");
+                        return View(model);
                     }
                     await db.Photoes.AddAsync(model);
                     await db.SaveChangesAsync();
