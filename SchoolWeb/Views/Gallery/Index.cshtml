@@ -1,7 +1,11 @@
-﻿@using SchoolWeb.Models
+﻿@using Microsoft.AspNetCore.Identity
+@using SchoolWeb.Models
+
+@inject SignInManager<IdentityUser> signInManager
 @model IEnumerable<PhotoModel>
 @{
     ViewData["Title"] = "Галерея";
+    bool signedIn = signInManager.IsSignedIn(User);
 }
 <style>
     .fullscreen:-webkit-full-screen {
@@ -71,62 +75,79 @@
 <h2 class="text-center">Галерея</h2>
 <hr />
 
-<div class="row">
-    <div class="col-md-2"></div>
-    <div class="btn-group btn-group-lg col-md-8" role="group">
-        @for (int i = 0; i <= (int)ViewData["total"]; i++)
-        {
-            <a type="button" class="btn btn-primary" asp-controller="Gallery" asp-action="Index" asp-route-id="@i">@i</a>
-        }
-    </div>
-    <div class="col-md-2"></div>
-</div>
-
 @if (Model != null && Model.Count() > 0)
 {
+    if ((int)ViewData["total"] != 0)
+    {
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="btn-group btn-group-lg col-md-8" role="group">
+                @for (int i = 0; i <= (int)ViewData["total"]; i++)
+                {
+                    <a class="btn btn-primary" asp-controller="Gallery" asp-action="Index" asp-route-id="@i">@(i+1)</a>
+                }
+            </div>
+            <div class="col-md-2">
+                @if (signedIn)
+                {
+                    <a class="btn btn-outline-warning" asp-controller="Gallery" asp-action="Add"><i class="bi bi-plus-circle"></i> Добавить</a>
+                }
+            </div>
+        </div>
+    }
+    else
+    {
+        @if (signedIn)
+        {
+            <div class="text-center">
+                <a class="btn btn-outline-success" asp-controller="Gallery" asp-action="Add"><i class="bi bi-plus-circle"></i> Добавить</a>
+            </div>
+        }
+    }
+
     <p>
         @foreach (PhotoModel photo in Model)
         {
             <div title="@photo.Description" class="visible text-center" style="width:200px; display: inline-block; margin-left:10px;margin-right:10px;">
                 <figure class="sign" style="width:200px;">
                     <img id="theImage-@photo.Id" style="width:200px; height:auto;" class="fullscreen" src="@photo.ToString()" onClick="makeFullScreen(@photo.Id)">
-                    <figcaption>@photo.Title</figcaption>
+                    <figcaption class="mt-1">
+                        @if (signedIn)
+                        {
+                            <a class="btn btn-outline-warning" asp-controller="Gallery" asp-action="Edit" asp-route-id="@photo.Id"><i class="bi bi-pencil"></i></a>
+                        }
+                        @photo.Title
+                        @if (signedIn)
+                        {
+                            <a class="btn btn-outline-danger" asp-controller="Gallery" asp-action="Delete" asp-route-id="@photo.Id"><i class="bi bi-trash"></i></a>
+                        }
+                    </figcaption>
                 </figure>
             </div>
         }
     </p>
 
-
-    @*<div class="thumbnails">
-        @foreach (PhotoModel photo in Model)
-        {
-        <ins class="thumbnail">
-        <div class="r">
-        <div title="@photo.Description" class="visible text-center">
-        <img id="theImage-@photo.Id" style="width:200px; height:auto;" class="fullscreen" src="@photo.ToString()" onClick="makeFullScreen(@photo.Id)">
-        <br>
-        <h6 style="width:200px;">@photo.Title</h6>
+    if ((int)ViewData["total"] != 0)
+    {
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="btn-group btn-group-lg col-md-8" role="group">
+                @for (int i = 0; i <= (int)ViewData["total"]; i++)
+                {
+                    <a class="btn btn-primary" asp-controller="Gallery" asp-action="Index" asp-route-id="@i">@(i+1)</a>
+                }
+            </div>
+            <div class="col-md-2"></div>
         </div>
-        </div>
-        </ins>
-        }
-        </div>*@
-
-    <div class="row">
-        <div class="col-md-2"></div>
-        <div class="btn-group btn-group-lg col-md-8" role="group">
-            @for (int i = 0; i <= (int)ViewData["total"]; i++)
-            {
-                <a type="button" class="btn btn-primary" asp-controller="Gallery" asp-action="Index" asp-route-id="@i">@i</a>
-            }
-        </div>
-        <div class="col-md-2"></div>
-    </div>
-
-
-
+    }
 }
 else
 {
-    <h3 class="text-center">Пока в галерее нет картинок</h3>
+    <div class="text-center">
+        <h3>Пока в галерее нет картинок</h3>
+        @if (signedIn)
+        {
+            <a class="btn btn-outline-success" asp-controller="Gallery" asp-action="Add"><i class="bi bi-plus-circle"></i> Добавить</a>
+        }
+    </div>
 }

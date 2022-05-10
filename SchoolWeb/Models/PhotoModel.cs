@@ -1,4 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SchoolWeb.Models
 {
@@ -6,12 +10,18 @@ namespace SchoolWeb.Models
     {
         [Key]
         public int Id { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Укажите название для фото")]
+        [DisplayName("Название фото:")]
         public string Title { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Добавьте описание для фото")]
+        [DisplayName("Описание фото:")]
         public string Description { get; set; }
-        public byte[] Data { get; set; }
+        [ValidateNever]
+        public string ImageName { get; set; }
+        [NotMapped]
+        [Required(ErrorMessage = "Добавьте фото")]
+        public IFormFile ImageFile { get; set; }
 
-        public override string ToString() => Data != null ? $"data:image/jpg;base64,{Convert.ToBase64String(Data)}" : string.Empty;
+        public override string ToString() => $"/gallery/{ImageName}";
     }
 }
