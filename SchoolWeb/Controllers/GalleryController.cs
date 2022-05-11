@@ -91,9 +91,9 @@ namespace SchoolWeb.Controllers
                             await model.ImageFile.CopyToAsync(imageCreateStream);
                         }
                     }
-                    catch
+                    catch(Exception ex)
                     {
-                        ModelState.AddModelError("Title", "Некорректное название");
+                        ModelState.AddModelError("Title", $"Некорректное название: {ex}");
                         return View(model);
                     }
                     await db.Photoes.AddAsync(model);
