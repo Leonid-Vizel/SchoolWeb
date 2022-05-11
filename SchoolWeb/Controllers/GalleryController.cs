@@ -165,7 +165,7 @@ namespace SchoolWeb.Controllers
                 {
                     return NotFound();
                 }
-                return View(foundModel);
+                return View(EditPhotoModel.FromPhotoModel(foundModel));
             }
             else
             {
@@ -175,38 +175,76 @@ namespace SchoolWeb.Controllers
 
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public async Task<IActionResult> Edit(PhotoModel model)
+        public async Task<IActionResult> Edit(EditPhotoModel model)
         {
             if (ModelState.IsValid || CheckIfPhotoEditValid(ModelState))
             {
-                if (db.Photoes.Select(x => x.Title).Any(x => x.Equals(model.Title)))
-                {
-                    ModelState.AddModelError("Title", "Это название уже использовано");
-                    return View(model);
-                }
                 if (signInManager.IsSignedIn(User))
                 {
                     PhotoModel? foundModel = db.Photoes.FirstOrDefault(x=>x.Id == model.Id);
                     if (foundModel !=null)
                     {
+                        if (!foundModel.Title.Equals(model.Title) && db.Photoes.Select(x => x.Title).Any(x => x.Equals(model.Title)))
+                        {
+                            ModelState.AddModelError("Title", "Это название уже использовано");
+                            return View(model);
+                        }
                         string wwwRootImagePath = $"{environment.WebRootPath}\\gallery\\";
                         string oldPath = Path.Combine(wwwRootImagePath, foundModel.ImageName);
-                        string newFileName = $"{model.Title}{Path.GetExtension(foundModel.ImageName)}";
-                        string newPath = Path.Combine(wwwRootImagePath, newFileName);
-                        try
+                        if (model.ImageFile == null)
                         {
-                            System.IO.File.Copy(oldPath, newPath);
-                            System.IO.File.Delete(oldPath);
+                            string newFileName = $"{model.Title}{Path.GetExtension(foundModel.ImageName)}";
+                            foundModel.ImageName = newFileName;
+                            string newPath = Path.Combine(wwwRootImagePath, newFileName);
+                            try
+                            {
+                                System.IO.File.Copy(oldPath, newPath);
+                                System.IO.File.Delete(oldPath);
+                            }
+                            catch
+                            {
+                                ModelState.AddModelError("Title", "Некорректное название");
+                                return View(model);
+                            }
                         }
-                        catch
+                        else
                         {
-                            ModelState.AddModelError("Title", "Некорректное название");
-                            return View(model);
+                            if (foundModel.Title.Equals(model.Title))
+                            {
+                                try
+                                {
+                                    System.IO.File.Delete(oldPath);
+                                    using (var imageCreateStream = new FileStream(oldPath, FileMode.Create))
+                                    {
+                                        await model.ImageFile.CopyToAsync(imageCreateStream);
+                                    }
+                                }
+                                catch
+                                { }
+                            }
+                            else
+                            {
+                                string newFileName = $"{model.Title}{Path.GetExtension(foundModel.ImageName)}";
+                                foundModel.ImageName = newFileName;
+                                string newPath = Path.Combine(wwwRootImagePath, newFileName);
+                                try
+                                {
+                                    System.IO.File.Delete(oldPath);
+                                    using (var imageCreateStream = new FileStream(newPath, FileMode.Create))
+                                    {
+                                        await model.ImageFile.CopyToAsync(imageCreateStream);
+                                    }
+                                }
+                                catch
+                                {
+                                    ModelState.AddModelError("Title", "Некорректное название");
+                                    return View(model);
+                                }
+                            }
                         }
 
                         foundModel.Title = model.Title;
                         foundModel.Description = model.Description;
-                        foundModel.ImageName = newFileName;
                         db.Photoes.Update(foundModel);
                         await db.SaveChangesAsync();
                     }
