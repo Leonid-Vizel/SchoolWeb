@@ -61,12 +61,12 @@
         if (input.type === 'password')
         {
             input.type = 'text';
-            icon.src = '/img/closedEye.png';
+            icon.setAttribute("class","bi bi-eye-slash-fill");
         }
         else
         {
             input.type = 'password';
-            icon.src = '/img/eye.png';
+            icon.setAttribute("class","bi bi-eye-fill");
         }
     }
 
@@ -78,12 +78,12 @@
         if (input.type === 'password')
         {
             input.type = 'text';
-            icon.src = '/img/closedEye.png';
+            icon.setAttribute("class","bi bi-eye-slash-fill");
         }
         else
         {
             input.type = 'password';
-            icon.src = '/img/eye.png';
+            icon.setAttribute("class","bi bi-eye-fill");
         }
     }
 </script>
@@ -103,7 +103,7 @@
             <div class="input-wrapper">
                 <input asp-for="Input.Password" id="password" placeholder="Введите пароль" aria-required="true" />
                 <div class="input-icon" onclick="togglePassword()">
-                    <img id="icon" src="/img/eye.png">
+                    <i id = "icon" class="bi bi-eye-fill"></i>
                 </div>
             </div>
             <span asp-validation-for="Input.Password" class="text-danger"></span>
@@ -111,7 +111,7 @@
             <div class="input-wrapper">
                 <input asp-for="Input.ConfirmPassword" id="confirm_password" placeholder="Подтвердите пароль" aria-required="true" />
                 <div class="input-icon" onclick="toggleConfirmPassword()">
-                    <img id="confirm_icon" src="/img/eye.png">
+                    <i id = "confirm_icon" class="bi bi-eye-fill"></i>
                 </div>
             </div>
             <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
