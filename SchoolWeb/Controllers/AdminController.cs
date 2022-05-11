@@ -2,9 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SchoolWeb.Data;
 using SchoolWeb.Models;
-using System.Diagnostics;
 using System.Reflection;
-using System.Text.Json;
 
 namespace SchoolWeb.Controllers
 {

@@ -74,9 +74,9 @@ namespace SchoolWeb.Controllers
                     ModelState.AddModelError("Title", "Это название уже использовано");
                     return View(model);
                 }
-                if (!model.ImageFile.FileName.EndsWith(".png") && !model.ImageFile.FileName.EndsWith(".jpg") && !model.ImageFile.FileName.EndsWith(".jpeg"))
+                if (!model.ImageFile.FileName.EndsWith(".png") && !model.ImageFile.FileName.EndsWith(".jpg") && !model.ImageFile.FileName.EndsWith(".jpeg") && !model.ImageFile.FileName.EndsWith(".jfif"))
                 {
-                    ModelState.AddModelError("ImageFile", "Неверный формат. Загрузите изображение в одом из этих форматов: *.png, *.jpg, *.jpeg");
+                    ModelState.AddModelError("ImageFile", "Неверный формат. Загрузите изображение в одом из этих форматов: *.png, *.jpg, *.jpeg, *.jfif");
                     return View(model);
                 }
                 if (signInManager.IsSignedIn(User))
@@ -91,9 +91,9 @@ namespace SchoolWeb.Controllers
                             await model.ImageFile.CopyToAsync(imageCreateStream);
                         }
                     }
-                    catch
+                    catch(Exception ex)
                     {
-                        ModelState.AddModelError("Title", "Некорректное название");
+                        ModelState.AddModelError("Title", $"Некорректное название: {ex}");
                         return View(model);
                     }
                     await db.Photoes.AddAsync(model);

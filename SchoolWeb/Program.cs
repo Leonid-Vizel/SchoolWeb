@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Identity;
 using SchoolWeb.Models;
 using System.Reflection;
 using SchoolWeb;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
-
 //Configure schedule
 ScheduleInfo info = new ScheduleInfo()
 {
@@ -50,6 +50,14 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
     .AddEntityFrameworkStores<ApplicationDbContext>();
 var app = builder.Build();
 
+app.UseRequestLocalization();
+
+CultureInfo cultureInfo = new CultureInfo("ru-RU", true);
+cultureInfo.NumberFormat.NumberDecimalSeparator = ".";
+
+CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
+
 #region Configure schedule
 IServiceScope scope = app.Services.CreateScope();
 ApplicationDbContext db = scope.ServiceProvider.GetService<ApplicationDbContext>();
@@ -90,7 +98,7 @@ foreach (PropertyInfo propInfo in info.GetType().GetProperties())
                 }
                 else
                 {
-                    propInfo.SetValue(info, 0);
+                    propInfo.SetValue(info, DateTime.Now);
                     option.Value = DateTime.Now.ToString();
                     db.Settings.Update(option);
                 }

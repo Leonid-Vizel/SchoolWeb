@@ -108,18 +108,17 @@
     <p>
         @foreach (PhotoModel photo in Model)
         {
-            <div title="@photo.Description" class="visible text-center" style="width:200px; display: inline-block; margin-left:10px;margin-right:10px;">
+            <div title="@photo.Description" class="visible text-center" style="width:200px; display: inline-block; margin-left:10px;margin-right:10px;margin-top:10px;">
                 <figure class="sign" style="width:200px;">
                     <img id="theImage-@photo.Id" style="width:200px; height:auto;" class="fullscreen" src="@photo.ToString()" onClick="makeFullScreen(@photo.Id)">
                     <figcaption class="mt-1">
-                        @if (signedIn)
-                        {
-                            <a class="btn btn-outline-warning" asp-controller="Gallery" asp-action="Edit" asp-route-id="@photo.Id"><i class="bi bi-pencil"></i></a>
-                        }
                         @photo.Title
                         @if (signedIn)
                         {
-                            <a class="btn btn-outline-danger" asp-controller="Gallery" asp-action="Delete" asp-route-id="@photo.Id"><i class="bi bi-trash"></i></a>
+                            <div>
+                                <a class="btn btn-sm btn-outline-warning" asp-controller="Gallery" asp-action="Edit" asp-route-id="@photo.Id"><i class="bi bi-pencil"></i></a>
+                                <a class="btn btn-sm btn-outline-danger" asp-controller="Gallery" asp-action="Delete" asp-route-id="@photo.Id"><i class="bi bi-trash"></i></a>
+                            </div>
                         }
                     </figcaption>
                 </figure>
