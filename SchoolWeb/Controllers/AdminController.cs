@@ -58,7 +58,7 @@ namespace SchoolWeb.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("ElementNotFound");
+                    return NotFound();
                 }
             }
             else
@@ -83,7 +83,7 @@ namespace SchoolWeb.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("ElementNotFound");
+                    return NotFound();
                 }
             }
             else
@@ -130,7 +130,7 @@ namespace SchoolWeb.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("ElementNotFound");
+                    return NotFound();
                 }
             }
             else
@@ -155,7 +155,7 @@ namespace SchoolWeb.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("ElementNotFound");
+                    return NotFound();
                 }
             }
             else
@@ -216,7 +216,7 @@ namespace SchoolWeb.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("ElementNotFound");
+                    return NotFound();
                 }
             }
             else
@@ -261,7 +261,7 @@ namespace SchoolWeb.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("ElementNotFound");
+                    return NotFound();
                 }
             }
             else
@@ -286,7 +286,7 @@ namespace SchoolWeb.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("ElementNotFound");
+                    return NotFound();
                 }
             }
             else
@@ -349,7 +349,7 @@ namespace SchoolWeb.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("ElementNotFound");
+                    return NotFound();
                 }
             }
             else
@@ -394,7 +394,7 @@ namespace SchoolWeb.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("ElementNotFound");
+                    return NotFound();
                 }
             }
             else
@@ -419,7 +419,7 @@ namespace SchoolWeb.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("ElementNotFound");
+                    return NotFound();
                 }
             }
             else
@@ -434,11 +434,6 @@ namespace SchoolWeb.Controllers
         #region Errors
 
         public IActionResult NoPermissions()
-        {
-            return View();
-        }
-
-        public IActionResult ElementNotFound()
         {
             return View();
         }
