@@ -52,7 +52,9 @@ var app = builder.Build();
 
 app.UseRequestLocalization();
 
-var cultureInfo = new CultureInfo("en-US");
+CultureInfo cultureInfo = new CultureInfo("ru-RU", true);
+cultureInfo.NumberFormat.NumberDecimalSeparator = ".";
+
 CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
 CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
 

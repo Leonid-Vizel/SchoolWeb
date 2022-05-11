@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\documents\Тестовый документ.pdf" />
+    <Content Remove="wwwroot\gallery\Парадная.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.4" />
@@ -19,8 +24,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\gallery\" />
-    <Folder Include="wwwroot\documents\" />
+    <None Include="wwwroot\documents\Тестовый документ.pdf" />
+    <None Include="wwwroot\gallery\Парадная.jpg" />
   </ItemGroup>
 
 </Project>
