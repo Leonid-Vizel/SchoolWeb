@@ -114,12 +114,12 @@
                     <figcaption class="mt-1">
                         @if (signedIn)
                         {
-                            <a class="btn btn-outline-warning" asp-controller="Gallery" asp-action="Edit" asp-route-id="@photo.Id"><i class="bi bi-pencil"></i></a>
+                            <a class="btn btn-sm btn-outline-warning" asp-controller="Gallery" asp-action="Edit" asp-route-id="@photo.Id"><i class="bi bi-pencil"></i></a>
                         }
                         @photo.Title
                         @if (signedIn)
                         {
-                            <a class="btn btn-outline-danger" asp-controller="Gallery" asp-action="Delete" asp-route-id="@photo.Id"><i class="bi bi-trash"></i></a>
+                            <a class="btn btn-sm btn-outline-danger" asp-controller="Gallery" asp-action="Delete" asp-route-id="@photo.Id"><i class="bi bi-trash"></i></a>
                         }
                     </figcaption>
                 </figure>

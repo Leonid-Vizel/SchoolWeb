@@ -9,7 +9,7 @@ namespace SchoolWeb.Models
         [Key]
         public int Id { get; set; }
         [DisplayName("Год:")]
-        [Range(2002, 3000, ErrorMessage = "Год должен быть больше 2001")]
+        [Range(2010, 3000, ErrorMessage = "Год должен быть больше 2009")]
         [Required(ErrorMessage = "Год должен быть обязательно указан")]
         public int Year { get; set; }
         [DisplayName("Русский язык:")]

@@ -3,11 +3,13 @@
     ViewData["Title"] = "Добавление результатов ЕГЭ";
 }
 
+
+
 <form method="post">
     <div class="form-group row">
         <label asp-for="Year" class="col-sm-1 col-form-label mb-2"></label>
         <div class="col-sm-2">
-            <input asp-for="Year" class="form-control" placeholder="@DateTime.Now.Year">
+            <input asp-for="Year" min="2010" max="3000" class="form-control" placeholder="@DateTime.Now.Year">
         </div>
         <div class="col-sm-2">
             <span asp-validation-for="Year" class="text-danger"></span>
@@ -155,5 +157,5 @@
 
 @section Scripts
     {
-        <partial name="_ValidationScriptsPartial" />
+<partial name="_ValidationScriptsPartial" />
     }
