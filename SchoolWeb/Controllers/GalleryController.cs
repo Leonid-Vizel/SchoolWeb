@@ -165,7 +165,7 @@ namespace SchoolWeb.Controllers
                 {
                     return NotFound();
                 }
-                return View(EditPhotoModel.FromPhotoModel(foundModel));
+                return View(foundModel);
             }
             else
             {
@@ -175,7 +175,7 @@ namespace SchoolWeb.Controllers
 
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public async Task<IActionResult> Edit(EditPhotoModel model)
+        public async Task<IActionResult> Edit(PhotoModel model)
         {
             if (ModelState.IsValid || CheckIfPhotoEditValid(ModelState))
             {
