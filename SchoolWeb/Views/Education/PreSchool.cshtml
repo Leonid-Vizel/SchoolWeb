@@ -2,6 +2,8 @@
     ViewData["Title"] = "Дошкольники";
 }
 
+<script src="~/js/fullscreen.js"></script>
+
 <hr />
 <h2 class="text-center">Дошкольное отделение (3 - 7 лет)</h2>
 <hr />
@@ -9,7 +11,7 @@
 
 <td>
     <p>
-        <img src="/img/preschool.jpg" class="img-fluid rounded" style="max-width:50%;" hspace="10" vspace="10" align="right">
+        <img id = "image" src="/img/preschool.jpg" class="img-fluid rounded" style="max-width:50%;" hspace="10" vspace="10" align="right" onClick="makeFullScreen()">
         Дошкольное отделение представляет разновозрастную группу детей 3 – 7 лет. 
         <p class = "p-no-space"><b>Режим дня дошкольного отделения:</b></p>
         <ul class = "ul-no-space">

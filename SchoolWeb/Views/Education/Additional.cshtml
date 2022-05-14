@@ -1,10 +1,12 @@
 ﻿@{
     ViewData["Title"] = "Доп. образование";
 }
+<script src="~/js/fullscreen-id.js"></script>
 
 <hr />
 <h2 class="text-center">Дополнительное образование</h2>
 <hr />
+
 <p class = "p-no-space">
     Школа «Елена – Сервис» представляет систему дополнительного образования через <b>кружки следующих направлений</b>:
     <ul class = "ul-no-space">
@@ -34,6 +36,6 @@
     места как России, так и Западной Европы, Африки, Азии.
 </p>
 
-<img src="/img/additional1.jpg" class="img-fluid rounded" hspace="5" vspace="5">
-<img src="/img/additional2.jpg" class="img-fluid rounded" hspace="5" vspace="5">
-<img src="/img/additional3.jpg" class="img-fluid rounded" hspace="5" vspace="5">
+<img id = "image-0" src="/img/additional1.jpg" class="img-fluid rounded" hspace="5" vspace="5" onClick="makeFullScreen(0)">
+<img id = "image-1" src="/img/additional2.jpg" class="img-fluid rounded" hspace="5" vspace="5" onClick="makeFullScreen(1)">
+<img id = "image-2" src="/img/additional3.jpg" class="img-fluid rounded" hspace="5" vspace="5" onClick="makeFullScreen(2)">

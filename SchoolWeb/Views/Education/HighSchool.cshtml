@@ -2,13 +2,15 @@
     ViewData["Title"] = "Старшая школа";
 }
 
+<script src="~/js/fullscreen.js"></script>
+
 <hr />
 <h2 class="text-center">Старшая школа (10 - 11 класс)</h2>
 <hr />
 
 <td>
     <p>
-        <img src="/img/high.jpg" class="img-fluid rounded" style="max-width:50%;" hspace="10" vspace="10" align="right">
+        <img id = "image" src="/img/high.jpg" class="img-fluid rounded" style="max-width:50%;" hspace="10" vspace="10" align="right" onClick="makeFullScreen()">
         Вся программа старшей школы рассчитана на подготовку к экзаменам и получению
         аттестата об образовании с наивысшими баллами, а также на подготовку к
         поступлению в высшие учебные заведения, как российские, так и зарубежные.
