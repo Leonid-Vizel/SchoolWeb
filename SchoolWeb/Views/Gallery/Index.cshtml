@@ -30,25 +30,6 @@
         height: 3em;
         width: 10em;
     }
-
-    .thumbnails {
-        margin: -3em 0 0 -2em;
-        text-align: center;
-    }
-
-    .thumbnail {
-        text-decoration: none;
-        display: -moz-inline-box;
-        display: inline-block;
-        vertical-align: top;
-        text-align: left;
-        margin: 3em 0 0 2em;
-    }
-
-        .thumbnail .r {
-            width: 14em;
-            float: left;
-        }
 </style>
 
 <script src="~/js/fullscreen-id.js"></script>
@@ -90,21 +71,42 @@
     <p>
         @foreach (PhotoModel photo in Model)
         {
-            <div title="@photo.Description" class="visible text-center" style="width:200px; display: inline-block; margin-left:10px;margin-right:10px;margin-top:10px;">
-                <figure class="sign" style="width:200px;">
-                    <img id="image-@photo.Id" style="width:200px; height:auto;" class="fullscreen" src="@photo.ToString()" onClick="makeFullScreen(@photo.Id)">
-                    <figcaption class="mt-1">
-                        @photo.Title
-                        @if (signedIn)
-                        {
-                            <div>
-                                <a class="btn btn-sm btn-outline-warning" asp-controller="Gallery" asp-action="Edit" asp-route-id="@photo.Id"><i class="bi bi-pencil"></i></a>
-                                <a class="btn btn-sm btn-outline-danger" asp-controller="Gallery" asp-action="Delete" asp-route-id="@photo.Id"><i class="bi bi-trash"></i></a>
-                            </div>
-                        }
-                    </figcaption>
-                </figure>
-            </div>
+            @if (@photo.Description == null)
+            {
+                <div class= "text-center" style="width:200px; display: inline-block; margin-left:10px;margin-right:10px;margin-top:10px;">
+                    <figure class="sign" style="width:200px;">
+                        <img id="image-@photo.Id" style="width:200px; height:auto;" class="fullscreen" src="@photo.ToString()" onClick="makeFullScreen(@photo.Id)">
+                        <figcaption class="mt-1">
+                            @photo.Title
+                            @if (signedIn)
+                            {
+                                <div>
+                                    <a class="btn btn-sm btn-outline-warning" asp-controller="Gallery" asp-action="Edit" asp-route-id="@photo.Id"><i class="bi bi-pencil"></i></a>
+                                    <a class="btn btn-sm btn-outline-danger" asp-controller="Gallery" asp-action="Delete" asp-route-id="@photo.Id"><i class="bi bi-trash"></i></a>
+                                </div>
+                            }
+                        </figcaption>
+                    </figure>
+                </div>
+            }
+            else
+            {
+                <div title="@photo.Description" class="visible text-center" style="width:200px; display: inline-block; margin-left:10px;margin-right:10px;margin-top:10px;">
+                    <figure class="sign" style="width:200px;">
+                        <img id="image-@photo.Id" style="width:200px; height:auto;" class="fullscreen" src="@photo.ToString()" onClick="makeFullScreen(@photo.Id)">
+                        <figcaption class="mt-1">
+                            @photo.Title
+                            @if (signedIn)
+                            {
+                                <div>
+                                    <a class="btn btn-sm btn-outline-warning" asp-controller="Gallery" asp-action="Edit" asp-route-id="@photo.Id"><i class="bi bi-pencil"></i></a>
+                                    <a class="btn btn-sm btn-outline-danger" asp-controller="Gallery" asp-action="Delete" asp-route-id="@photo.Id"><i class="bi bi-trash"></i></a>
+                                </div>
+                            }
+                        </figcaption>
+                    </figure>
+                </div>
+            }
         }
     </p>
 

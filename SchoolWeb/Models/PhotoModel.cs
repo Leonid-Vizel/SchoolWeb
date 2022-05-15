@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -13,9 +12,9 @@ namespace SchoolWeb.Models
         [Required(ErrorMessage = "Укажите название для фото")]
         [DisplayName("Название:")]
         public string Title { get; set; }
-        [Required(ErrorMessage = "Добавьте описание для фото")]
-        [DisplayName("Описание:")]
-        public string Description { get; set; }
+        [DisplayName("Описание (Необязательно):")]
+        [ValidateNever]
+        public string? Description { get; set; }
         [ValidateNever]
         public string ImageName { get; set; }
         [NotMapped]

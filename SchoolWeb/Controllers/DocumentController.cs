@@ -35,6 +35,16 @@ namespace SchoolWeb.Controllers
             return File($"documents\\{foundModel.DocumentName}", "application/pdf");
         }
 
+        public async Task<IActionResult> Document(string name)
+        {
+            DocumentModel? foundModel = db.Documents.FirstOrDefault(x => x.Title.Equals(name));
+            if (foundModel == null)
+            {
+                return NotFound();
+            }
+            return File($"documents\\{foundModel.DocumentName}", "application/pdf");
+        }
+
         public IActionResult Add()
         {
             if (signInManager.IsSignedIn(User))

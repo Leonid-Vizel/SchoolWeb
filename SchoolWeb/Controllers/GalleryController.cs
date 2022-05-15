@@ -189,6 +189,11 @@ namespace SchoolWeb.Controllers
                             ModelState.AddModelError("Title", "Это название уже использовано");
                             return View(model);
                         }
+                        if (model.ImageFile != null && !model.ImageFile.FileName.EndsWith(".png") && !model.ImageFile.FileName.EndsWith(".jpg") && !model.ImageFile.FileName.EndsWith(".jpeg") && !model.ImageFile.FileName.EndsWith(".jfif"))
+                        {
+                            ModelState.AddModelError("ImageFile", "Неверный формат. Загрузите изображение в одом из этих форматов: *.png, *.jpg, *.jpeg, *.jfif");
+                            return View(model);
+                        }
                         string wwwRootImagePath = $"{environment.WebRootPath}\\gallery\\";
                         string oldPath = Path.Combine(wwwRootImagePath, foundModel.ImageName);
                         if (model.ImageFile == null)
