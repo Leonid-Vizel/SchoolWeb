@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <Content Remove="wwwroot\documents\Тестовый документ.pdf" />
-    <Content Remove="wwwroot\gallery\Парадная.jpg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,7 +24,10 @@
 
   <ItemGroup>
     <None Include="wwwroot\documents\Тестовый документ.pdf" />
-    <None Include="wwwroot\gallery\Парадная.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\gallery\" />
   </ItemGroup>
 
 </Project>

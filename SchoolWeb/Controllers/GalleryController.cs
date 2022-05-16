@@ -19,9 +19,6 @@ namespace SchoolWeb.Controllers
             this.environment = environment;
         }
 
-        private bool CheckIfPhotoEditValid(ModelStateDictionary modelState)
-            => modelState["Title"]?.ValidationState == ModelValidationState.Valid && modelState["Description"]?.ValidationState == ModelValidationState.Valid;
-
         public IActionResult Index(int id = 0) // page (Id для красоты)
         {
             int allCount = db.Photoes.Count();
@@ -91,7 +88,7 @@ namespace SchoolWeb.Controllers
                             await model.ImageFile.CopyToAsync(imageCreateStream);
                         }
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         ModelState.AddModelError("Title", $"Некорректное название: {ex}");
                         return View(model);
@@ -165,7 +162,7 @@ namespace SchoolWeb.Controllers
                 {
                     return NotFound();
                 }
-                return View(foundModel);
+                return View(EditPhotoModel.FromPhotoModel(foundModel));
             }
             else
             {
@@ -175,95 +172,110 @@ namespace SchoolWeb.Controllers
 
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public async Task<IActionResult> Edit(PhotoModel model)
+        public async Task<IActionResult> Edit(EditPhotoModel model)
         {
-            if (ModelState.IsValid || CheckIfPhotoEditValid(ModelState))
-            {
-                if (signInManager.IsSignedIn(User))
-                {
-                    PhotoModel? foundModel = db.Photoes.FirstOrDefault(x=>x.Id == model.Id);
-                    if (foundModel !=null)
-                    {
-                        if (!foundModel.Title.Equals(model.Title) && db.Photoes.Select(x => x.Title).Any(x => x.Equals(model.Title)))
-                        {
-                            ModelState.AddModelError("Title", "Это название уже использовано");
-                            return View(model);
-                        }
-                        if (model.ImageFile != null && !model.ImageFile.FileName.EndsWith(".png") && !model.ImageFile.FileName.EndsWith(".jpg") && !model.ImageFile.FileName.EndsWith(".jpeg") && !model.ImageFile.FileName.EndsWith(".jfif"))
-                        {
-                            ModelState.AddModelError("ImageFile", "Неверный формат. Загрузите изображение в одом из этих форматов: *.png, *.jpg, *.jpeg, *.jfif");
-                            return View(model);
-                        }
-                        string wwwRootImagePath = $"{environment.WebRootPath}\\gallery\\";
-                        string oldPath = Path.Combine(wwwRootImagePath, foundModel.ImageName);
-                        if (model.ImageFile == null)
-                        {
-                            string newFileName = $"{model.Title}{Path.GetExtension(foundModel.ImageName)}";
-                            foundModel.ImageName = newFileName;
-                            string newPath = Path.Combine(wwwRootImagePath, newFileName);
-                            try
-                            {
-                                System.IO.File.Copy(oldPath, newPath);
-                                System.IO.File.Delete(oldPath);
-                            }
-                            catch
-                            {
-                                ModelState.AddModelError("Title", "Некорректное название");
-                                return View(model);
-                            }
-                        }
-                        else
-                        {
-                            if (foundModel.Title.Equals(model.Title))
-                            {
-                                try
-                                {
-                                    System.IO.File.Delete(oldPath);
-                                    using (var imageCreateStream = new FileStream(oldPath, FileMode.Create))
-                                    {
-                                        await model.ImageFile.CopyToAsync(imageCreateStream);
-                                    }
-                                }
-                                catch
-                                { }
-                            }
-                            else
-                            {
-                                string newFileName = $"{model.Title}{Path.GetExtension(foundModel.ImageName)}";
-                                foundModel.ImageName = newFileName;
-                                string newPath = Path.Combine(wwwRootImagePath, newFileName);
-                                try
-                                {
-                                    System.IO.File.Delete(oldPath);
-                                    using (var imageCreateStream = new FileStream(newPath, FileMode.Create))
-                                    {
-                                        await model.ImageFile.CopyToAsync(imageCreateStream);
-                                    }
-                                }
-                                catch
-                                {
-                                    ModelState.AddModelError("Title", "Некорректное название");
-                                    return View(model);
-                                }
-                            }
-                        }
-
-                        foundModel.Title = model.Title;
-                        foundModel.Description = model.Description;
-                        db.Photoes.Update(foundModel);
-                        await db.SaveChangesAsync();
-                    }
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    return RedirectToAction(controllerName: "Admin", actionName: "NoPermissions");
-                }
-            }
-            else
+            #region Если неверная модель
+            if (!ModelState.IsValid)
             {
                 return View(model);
             }
+            #endregion
+            #region Если не вошёл в акк
+            if (!signInManager.IsSignedIn(User))
+            {
+                return RedirectToAction(controllerName: "Admin", actionName: "NoPermissions");
+            }
+            #endregion
+            PhotoModel? foundModel = db.Photoes.FirstOrDefault(x => x.Id == model.Id);
+            #region Если не нашлось фото в базе
+            if (foundModel == null)
+            {
+                return NotFound();
+            }
+            #endregion
+            #region Если неверный формат фото
+            if (model.ImageFile != null && !model.ImageFile.FileName.EndsWith(".png") && !model.ImageFile.FileName.EndsWith(".jpg") && !model.ImageFile.FileName.EndsWith(".jpeg") && !model.ImageFile.FileName.EndsWith(".jfif"))
+            {
+                ModelState.AddModelError("ImageFile", "Неверный формат. Загрузите изображение в одом из этих форматов: *.png, *.jpg, *.jpeg, *.jfif");
+                return View(model);
+            }
+            #endregion
+            #region Если такое название уже существует
+            if (!foundModel.Title.Equals(model.Title) && db.Photoes.Select(x => x.Title).Any(x => x.Equals(model.Title)))
+            {
+                ModelState.AddModelError("Title", "Это название уже использовано");
+                return View(model);
+            }
+            #endregion
+            string wwwRootImagePath = $"{environment.WebRootPath}\\gallery\\";
+            string oldPath = Path.Combine(wwwRootImagePath, foundModel.ImageName);
+            #region Если название не меняли
+            if (foundModel.Title.Equals(model.Title))
+            {
+                if (model.ImageFile != null)
+                {
+                    try
+                    {
+                        System.IO.File.Delete(oldPath);
+                        using (var imageCreateStream = new FileStream(oldPath, FileMode.Create))
+                        {
+                            await model.ImageFile.CopyToAsync(imageCreateStream);
+                        }
+                    }
+                    catch
+                    { }
+                }
+                foundModel.Description = model.Description;
+                db.Photoes.Update(foundModel);
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            #endregion
+            //Title not equals
+            string newFileName = $"{model.Title}{Path.GetExtension(foundModel.ImageName)}";
+            foundModel.ImageName = newFileName;
+            string newPath = Path.Combine(wwwRootImagePath, newFileName);
+            #region Если название поменяли и загрузили фото
+            if (model.ImageFile != null)
+            {
+                try
+                {
+                    System.IO.File.Delete(oldPath);
+                    using (var imageCreateStream = new FileStream(newPath, FileMode.Create))
+                    {
+                        await model.ImageFile.CopyToAsync(imageCreateStream);
+                    }
+                }
+                catch
+                {
+                    ModelState.AddModelError("Title", "Некорректное название");
+                    return View(model);
+                }
+                foundModel.Title = model.Title;
+                foundModel.Description = model.Description;
+                db.Photoes.Update(foundModel);
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            #endregion
+            #region Если название поменяли, но фото не загрузили
+            try
+            {
+                System.IO.File.Copy(oldPath, newPath);
+                System.IO.File.Delete(oldPath);
+            }
+            catch
+            {
+                ModelState.AddModelError("Title", "Некорректное название");
+                return View(model);
+            }
+
+            foundModel.Title = model.Title;
+            foundModel.Description = model.Description;
+            db.Photoes.Update(foundModel);
+            await db.SaveChangesAsync();
+            return RedirectToAction("Index");
+            #endregion
         }
     }
 }
