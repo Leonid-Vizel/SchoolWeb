@@ -30,7 +30,7 @@
     @if (signInManager.IsSignedIn(User))
     {
         <div class="col-6 text-end">
-            <a asp-controller="Admin" asp-action="AddEgeYear" class="btn btn-outline-primary">
+            <a asp-controller="Exam" asp-action="AddEge" class="btn btn-outline-primary">
                 <i class="bi bi-plus-circle-fill"></i> Добавить
             </a>
         </div>
@@ -46,7 +46,9 @@
                 {
                     <td bgcolor="#FFFACD">
                         <div align="center">
-                            <a asp-controller="Admin" asp-action="DeleteEgeYear" asp-route-id="@result.Id" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a> <b>@result.Year</b>
+                            <b>@result.Year</b>
+                            <a asp-controller="Exam" asp-action="EditEge" asp-route-id="@result.Id" class="btn btn-sm btn-outline-danger"><i class="bi bi-pencil"></i></a> 
+                            <a asp-controller="Exam" asp-action="DeleteEge" asp-route-id="@result.Id" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a> 
                         </div>
                     </td>
                 }
@@ -95,7 +97,7 @@
     @if (signInManager.IsSignedIn(User))
     {
         <div class="col-6 text-end">
-            <a asp-controller="Admin" asp-action="AddOgeYear" class="btn btn-outline-primary">
+            <a asp-controller="Exam" asp-action="AddOge" class="btn btn-outline-primary">
                 <i class="bi bi-plus-circle-fill"></i> Добавить
             </a>
         </div>
@@ -111,7 +113,9 @@
                 {
                     <td bgcolor="#FFFACD">
                         <div align="center">
-                            <a asp-controller="Admin" asp-action="DeleteOgeYear" asp-route-id="@result.Id" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a> <b>@result.Year</b>
+                            <b>@result.Year</b>
+                            <a asp-controller="Exam" asp-action="EditOge" asp-route-id="@result.Id" class="btn btn-sm btn-outline-danger"><i class="bi bi-pencil"></i></a> 
+                            <a asp-controller="Exam" asp-action="DeleteOge" asp-route-id="@result.Id" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a> 
                         </div>
                     </td>
                 }

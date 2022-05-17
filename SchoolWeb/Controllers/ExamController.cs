@@ -8,14 +8,12 @@ namespace SchoolWeb.Controllers
     public class ExamController : Controller
     {
         private ApplicationDbContext db;
-        private ScheduleInfo info;
         private readonly SignInManager<IdentityUser> SignInManager;
 
-        public ExamController(ApplicationDbContext db, ScheduleInfo info, SignInManager<IdentityUser> SignInManager)
+        public ExamController(ApplicationDbContext db ,SignInManager<IdentityUser> SignInManager)
         {
             this.db = db;
             this.SignInManager = SignInManager;
-            this.info = info;
         }
 
         public IActionResult Index()
@@ -28,7 +26,7 @@ namespace SchoolWeb.Controllers
         }
 
         #region ОГЭ
-        public IActionResult AddOgeYear()
+        public IActionResult AddOge()
         {
             if (SignInManager.IsSignedIn(User))
             {
@@ -36,138 +34,165 @@ namespace SchoolWeb.Controllers
             }
             else
             {
-                return RedirectToAction("NoPermissions");
+                return RedirectToAction(controllerName: "Admin", actionName: "NoPermissions");
             }
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddOgeYear(OgeResult result)
+        public async Task<IActionResult> AddOge(OgeResult result)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                await db.OgeResults.AddAsync(result);
-                await db.SaveChangesAsync();
-                return RedirectToAction(actionName: "Index");
+                return View(result);
             }
-            return View(result);
+            await db.OgeResults.AddAsync(result);
+            await db.SaveChangesAsync();
+            return RedirectToAction("Index");
         }
 
-        public IActionResult DeleteOgeYear(int id)
+        public IActionResult EditOge(int Id)
         {
-            if (SignInManager.IsSignedIn(User))
+            if (!SignInManager.IsSignedIn(User))
             {
-                OgeResult? foundResult = db.OgeResults.FirstOrDefault(x => x.Id == id);
-                if (foundResult != null)
-                {
-                    return View(foundResult.Year);
-                }
-                else
-                {
-                    return NotFound();
-                }
+                return RedirectToAction(controllerName: "Admin", actionName: "NoPermissions");
             }
-            else
+            OgeResult? foundResult = db.OgeResults.FirstOrDefault(x=>x.Id == Id);
+            if (foundResult == null)
             {
-                return RedirectToAction("NoPermissions");
+                return NotFound();
             }
+            return View(foundResult);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [ActionName("DeleteOgeYear")]
-        public async Task<IActionResult> DeleteOgeYearPOST(int id)
+        public async Task<IActionResult> EditOge(OgeResult result)
         {
-            if (SignInManager.IsSignedIn(User))
+            if (!ModelState.IsValid)
             {
-                OgeResult? foundResult = db.OgeResults.FirstOrDefault(x => x.Id == id);
-                if (foundResult != null)
-                {
-                    db.OgeResults.Remove(foundResult);
-                    await db.SaveChangesAsync();
-                    return RedirectToAction(actionName: "Index");
-                }
-                else
-                {
-                    return NotFound();
-                }
+                return View(result);
             }
-            else
+            db.OgeResults.Update(result);
+            await db.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult DeleteOge(int id)
+        {
+            if (!SignInManager.IsSignedIn(User))
             {
-                return RedirectToAction("NoPermissions");
+                return RedirectToAction(controllerName: "Admin", actionName: "NoPermissions");
             }
+            OgeResult? foundResult = db.OgeResults.FirstOrDefault(x => x.Id == id);
+            if (foundResult == null)
+            {
+                return NotFound();
+            }
+            return View(foundResult.Year);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ActionName("DeleteOge")]
+        public async Task<IActionResult> DeleteOgePost(int id)
+        {
+            if (!SignInManager.IsSignedIn(User))
+            {
+                return RedirectToAction(controllerName: "Admin", actionName: "NoPermissions");
+            }
+            OgeResult? foundResult = db.OgeResults.FirstOrDefault(x => x.Id == id);
+            if (foundResult == null)
+            {
+                return NotFound();
+            }
+            db.OgeResults.Remove(foundResult);
+            await db.SaveChangesAsync();
+            return RedirectToAction("Index");
         }
         #endregion
 
         #region ЕГЭ
-        public IActionResult AddEgeYear()
+        public IActionResult AddEge()
         {
-            if (SignInManager.IsSignedIn(User))
+            if (!SignInManager.IsSignedIn(User))
             {
-                return View();
+                return RedirectToAction(controllerName: "Admin", actionName: "NoPermissions");
             }
-            else
-            {
-                return RedirectToAction("NoPermissions");
-            }
+            return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddEgeYear(EgeResult result)
+        public async Task<IActionResult> AddEge(EgeResult result)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                await db.EgeResults.AddAsync(result);
-                await db.SaveChangesAsync();
-                return RedirectToAction(actionName: "Index");
+                return View(result);
             }
-            return View(result);
+            await db.EgeResults.AddAsync(result);
+            await db.SaveChangesAsync();
+            return RedirectToAction("Index");
         }
 
-        public IActionResult DeleteEgeYear(int id)
+        public IActionResult EditEge(int Id)
         {
-            if (SignInManager.IsSignedIn(User))
+            if (!SignInManager.IsSignedIn(User))
             {
-                EgeResult? foundResult = db.EgeResults.FirstOrDefault(x => x.Id == id);
-                if (foundResult != null)
-                {
-                    return View(foundResult.Year);
-                }
-                else
-                {
-                    return NotFound();
-                }
+                return RedirectToAction(controllerName: "Admin", actionName: "NoPermissions");
             }
-            else
+            EgeResult? foundResult = db.EgeResults.FirstOrDefault(x=>x.Id == Id);
+            if (foundResult == null)
             {
-                return RedirectToAction("NoPermissions");
+                return NotFound();
             }
+            return View(foundResult);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [ActionName("DeleteEgeYear")]
-        public async Task<IActionResult> DeleteEgeYearPOST(int id)
+        public async Task<IActionResult> EditEge(EgeResult result)
         {
-            if (SignInManager.IsSignedIn(User))
+            if (!ModelState.IsValid)
             {
-                EgeResult? foundResult = db.EgeResults.FirstOrDefault(x => x.Id == id);
-                if (foundResult != null)
-                {
-                    db.EgeResults.Remove(foundResult);
-                    await db.SaveChangesAsync();
-                    return RedirectToAction(actionName: "Index");
-                }
-                else
-                {
-                    return NotFound();
-                }
+                return View(result);
             }
-            else
+            db.EgeResults.Update(result);
+            await db.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult DeleteEge(int id)
+        {
+            if (!SignInManager.IsSignedIn(User))
             {
-                return RedirectToAction("NoPermissions");
+                return RedirectToAction(controllerName: "Admin", actionName: "NoPermissions");
             }
+            EgeResult? foundResult = db.EgeResults.FirstOrDefault(x => x.Id == id);
+            if (foundResult == null)
+            {
+                return NotFound();
+            }
+            return View(foundResult.Year);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ActionName("DeleteEge")]
+        public async Task<IActionResult> DeleteEgePost(int id)
+        {
+            if (!SignInManager.IsSignedIn(User))
+            {
+                return RedirectToAction(controllerName: "Admin", actionName: "NoPermissions");
+            }
+            EgeResult? foundResult = db.EgeResults.FirstOrDefault(x => x.Id == id);
+            if (foundResult == null)
+            {
+                return NotFound();
+            }
+            db.EgeResults.Remove(foundResult);
+            await db.SaveChangesAsync();
+            return RedirectToAction("Index");
         }
         #endregion
     }
