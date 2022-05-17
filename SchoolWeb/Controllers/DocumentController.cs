@@ -47,79 +47,66 @@ namespace SchoolWeb.Controllers
 
         public IActionResult Add()
         {
-            if (signInManager.IsSignedIn(User))
-            {
-                return View();
-            }
-            else
+            if (!signInManager.IsSignedIn(User))
             {
                 return RedirectToAction(controllerName: "Admin", actionName: "NoPermissions");
             }
+            return View();
         }
 
         [ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<IActionResult> Add(DocumentModel model)
         {
-            if (ModelState.IsValid)
+            if (!signInManager.IsSignedIn(User))
             {
-                if (db.Documents.Select(x=>x.Title).Any(x=>x.Equals(model.Title)))
-                {
-                    ModelState.AddModelError("Title", "Это название уже использовано");
-                    return View(model);
-                }
-                if (!model.DocumentFile.ContentType.Equals("application/pdf"))
-                {
-                    ModelState.AddModelError("DocumentFile", "Неверный формат документа. Загрузите документ в формате pdf");
-                    return View(model);
-                }
-                if (signInManager.IsSignedIn(User))
-                {
-                    string wwwRootImagePath = $"{environment.WebRootPath}\\documents\\";
-                    string fileExtention = Path.GetExtension(model.DocumentFile.FileName);
-                    model.DocumentName = $"{model.Title}{fileExtention}";
-                    try
-                    {
-                        using (var imageCreateStream = new FileStream(Path.Combine(wwwRootImagePath, model.DocumentName), FileMode.Create))
-                        {
-                            await model.DocumentFile.CopyToAsync(imageCreateStream);
-                        }
-                    }
-                    catch
-                    {
-                        ModelState.AddModelError("Title", "Некорректное название");
-                        return View(model);
-                    }
-                    await db.Documents.AddAsync(model);
-                    await db.SaveChangesAsync();
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    return RedirectToAction(controllerName: "Admin", actionName: "NoPermissions");
-                }
+                return RedirectToAction(controllerName: "Admin", actionName: "NoPermissions");
             }
-            else
+            if (db.Documents.Select(x => x.Title).Any(x => x.Equals(model.Title)))
+            {
+                ModelState.AddModelError("Title", "Это название уже использовано");
+            }
+            if (!model.DocumentFile.ContentType.Equals("application/pdf"))
+            {
+                ModelState.AddModelError("DocumentFile", "Неверный формат документа. Загрузите документ в формате pdf");
+            }
+            if (!ModelState.IsValid)
             {
                 return View(model);
             }
+
+            string wwwRootImagePath = $"{environment.WebRootPath}\\documents\\";
+            string fileExtention = Path.GetExtension(model.DocumentFile.FileName);
+            model.DocumentName = $"{model.Title}{fileExtention}";
+            try
+            {
+                using (var imageCreateStream = new FileStream(Path.Combine(wwwRootImagePath, model.DocumentName), FileMode.Create))
+                {
+                    await model.DocumentFile.CopyToAsync(imageCreateStream);
+                }
+            }
+            catch
+            {
+                ModelState.AddModelError("Title", "Некорректное название");
+                return View(model);
+            }
+            await db.Documents.AddAsync(model);
+            await db.SaveChangesAsync();
+            return RedirectToAction("Index");
         }
 
         public IActionResult Edit(int id = 0)
         {
-            if (signInManager.IsSignedIn(User))
-            {
-                DocumentModel? foundModel = db.Documents.FirstOrDefault(x => x.Id == id);
-                if (foundModel == null)
-                {
-                    return NotFound();
-                }
-                return View(foundModel);
-            }
-            else
+            if (!signInManager.IsSignedIn(User))
             {
                 return RedirectToAction(controllerName: "Admin", actionName: "NoPermissions");
             }
+            DocumentModel? foundModel = db.Documents.FirstOrDefault(x => x.Id == id);
+            if (foundModel == null)
+            {
+                return NotFound();
+            }
+            return View(foundModel);
         }
 
         [ValidateAntiForgeryToken]
@@ -173,19 +160,16 @@ namespace SchoolWeb.Controllers
 
         public IActionResult Delete(int id = 0)
         {
-            if (signInManager.IsSignedIn(User))
-            {
-                DocumentModel? foundModel = db.Documents.FirstOrDefault(x => x.Id == id);
-                if (foundModel == null)
-                {
-                    return NotFound();
-                }
-                return View(id);
-            }
-            else
+            if (!signInManager.IsSignedIn(User))
             {
                 return RedirectToAction(controllerName: "Admin", actionName: "NoPermissions");
             }
+            DocumentModel? foundModel = db.Documents.FirstOrDefault(x => x.Id == id);
+            if (foundModel == null)
+            {
+                return NotFound();
+            }
+            return View(id);
         }
 
         [ValidateAntiForgeryToken]
@@ -193,27 +177,24 @@ namespace SchoolWeb.Controllers
         [ActionName("Delete")]
         public async Task<IActionResult> DeletePost(int id = 0)
         {
-            if (signInManager.IsSignedIn(User))
-            {
-                DocumentModel? foundModel = db.Documents.FirstOrDefault(x => x.Id == id);
-                if (foundModel != null)
-                {
-                    string wwwRootImagePath = $"{environment.WebRootPath}\\documents\\";
-                    string oldPath = Path.Combine(wwwRootImagePath, foundModel.DocumentName);
-                    try
-                    {
-                        System.IO.File.Delete(oldPath);
-                    }
-                    catch { }
-                    db.Documents.Remove(foundModel);
-                    await db.SaveChangesAsync();
-                }
-                return RedirectToAction("Index");
-            }
-            else
+            if (!signInManager.IsSignedIn(User))
             {
                 return RedirectToAction(controllerName: "Admin", actionName: "NoPermissions");
             }
+            DocumentModel? foundModel = db.Documents.FirstOrDefault(x => x.Id == id);
+            if (foundModel != null)
+            {
+                string wwwRootImagePath = $"{environment.WebRootPath}\\documents\\";
+                string oldPath = Path.Combine(wwwRootImagePath, foundModel.DocumentName);
+                try
+                {
+                    System.IO.File.Delete(oldPath);
+                }
+                catch { }
+                db.Documents.Remove(foundModel);
+                await db.SaveChangesAsync();
+            }
+            return RedirectToAction("Index");
         }
     }
 }

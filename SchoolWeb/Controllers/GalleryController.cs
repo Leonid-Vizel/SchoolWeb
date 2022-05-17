@@ -37,92 +37,77 @@ namespace SchoolWeb.Controllers
 
         public IActionResult Photo(int id = 0)
         {
-            PhotoModel? model = db.Photoes.FirstOrDefault(x => x.Id == id);
-            if (model != null)
-            {
-                return View(model);
-            }
-            else
+            PhotoModel? foundPhoto = db.Photoes.FirstOrDefault(x => x.Id == id);
+            if (foundPhoto == null)
             {
                 return NotFound();
             }
+            return View(foundPhoto);
         }
 
         public IActionResult Add()
         {
-            if (signInManager.IsSignedIn(User))
-            {
-                return View();
-            }
-            else
+            if (!signInManager.IsSignedIn(User))
             {
                 return RedirectToAction(controllerName: "Admin", actionName: "NoPermissions");
             }
+            return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Add(PhotoModel model)
         {
-            if (ModelState.IsValid)
+            if (!signInManager.IsSignedIn(User))
             {
-                if (db.Photoes.Select(x => x.Title).Any(x => x.Equals(model.Title)))
-                {
-                    ModelState.AddModelError("Title", "Это название уже использовано");
-                    return View(model);
-                }
-                if (!model.ImageFile.FileName.EndsWith(".png") && !model.ImageFile.FileName.EndsWith(".jpg") && !model.ImageFile.FileName.EndsWith(".jpeg") && !model.ImageFile.FileName.EndsWith(".jfif"))
-                {
-                    ModelState.AddModelError("ImageFile", "Неверный формат. Загрузите изображение в одом из этих форматов: *.png, *.jpg, *.jpeg, *.jfif");
-                    return View(model);
-                }
-                if (signInManager.IsSignedIn(User))
-                {
-                    string wwwRootImagePath = $"{environment.WebRootPath}\\gallery\\";
-                    string fileExtention = Path.GetExtension(model.ImageFile.FileName);
-                    model.ImageName = $"{model.Title}{fileExtention}";
-                    try
-                    {
-                        using (var imageCreateStream = new FileStream(Path.Combine(wwwRootImagePath, model.ImageName), FileMode.Create))
-                        {
-                            await model.ImageFile.CopyToAsync(imageCreateStream);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        ModelState.AddModelError("Title", $"Некорректное название: {ex}");
-                        return View(model);
-                    }
-                    await db.Photoes.AddAsync(model);
-                    await db.SaveChangesAsync();
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    return RedirectToAction(controllerName: "Admin", actionName: "NoPermissions");
-                }
+                return RedirectToAction(controllerName: "Admin", actionName: "NoPermissions");
             }
-            else
+            if (db.Photoes.Select(x => x.Title).Any(x => x.Equals(model.Title)))
+            {
+                ModelState.AddModelError("Title", "Это название уже использовано");
+                return View(model);
+            }
+            if (!model.ImageFile.FileName.EndsWith(".png") && !model.ImageFile.FileName.EndsWith(".jpg") && !model.ImageFile.FileName.EndsWith(".jpeg") && !model.ImageFile.FileName.EndsWith(".jfif"))
+            {
+                ModelState.AddModelError("ImageFile", "Неверный формат. Загрузите изображение в одом из этих форматов: *.png, *.jpg, *.jpeg, *.jfif");
+                return View(model);
+            }
+            if (!ModelState.IsValid)
             {
                 return View(model);
             }
+            string wwwRootImagePath = $"{environment.WebRootPath}\\gallery\\";
+            string fileExtention = Path.GetExtension(model.ImageFile.FileName);
+            model.ImageName = $"{model.Title}{fileExtention}";
+            try
+            {
+                using (var imageCreateStream = new FileStream(Path.Combine(wwwRootImagePath, model.ImageName), FileMode.Create))
+                {
+                    await model.ImageFile.CopyToAsync(imageCreateStream);
+                }
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("Title", $"Некорректное название: {ex}");
+                return View(model);
+            }
+            await db.Photoes.AddAsync(model);
+            await db.SaveChangesAsync();
+            return RedirectToAction("Index");
         }
 
         public IActionResult Delete(int id = 0)
         {
-            if (signInManager.IsSignedIn(User))
-            {
-                PhotoModel? foundModel = db.Photoes.FirstOrDefault(x => x.Id == id);
-                if (foundModel == null)
-                {
-                    return NotFound();
-                }
-                return View(id);
-            }
-            else
+            if (!signInManager.IsSignedIn(User))
             {
                 return RedirectToAction(controllerName: "Admin", actionName: "NoPermissions");
             }
+            PhotoModel? foundModel = db.Photoes.FirstOrDefault(x => x.Id == id);
+            if (foundModel == null)
+            {
+                return NotFound();
+            }
+            return View(id);
         }
 
         [ValidateAntiForgeryToken]
@@ -130,44 +115,39 @@ namespace SchoolWeb.Controllers
         [ActionName("Delete")]
         public async Task<IActionResult> DeletePost(int id = 0)
         {
-            if (signInManager.IsSignedIn(User))
-            {
-                PhotoModel? foundModel = db.Photoes.FirstOrDefault(x => x.Id == id);
-                if (foundModel != null)
-                {
-                    string wwwRootImagePath = $"{environment.WebRootPath}\\gallery\\";
-                    string oldPath = Path.Combine(wwwRootImagePath, foundModel.ImageName);
-                    try
-                    {
-                        System.IO.File.Delete(oldPath);
-                    }
-                    catch { }
-                    db.Photoes.Remove(foundModel);
-                    await db.SaveChangesAsync();
-                }
-                return RedirectToAction("Index");
-            }
-            else
+            if (!signInManager.IsSignedIn(User))
             {
                 return RedirectToAction(controllerName: "Admin", actionName: "NoPermissions");
             }
+            PhotoModel? foundPhoto = db.Photoes.FirstOrDefault(x => x.Id == id);
+            if (foundPhoto == null)
+            {
+                return NotFound();
+            }
+            string wwwRootImagePath = $"{environment.WebRootPath}\\gallery\\";
+            string oldPath = Path.Combine(wwwRootImagePath, foundPhoto.ImageName);
+            try
+            {
+                System.IO.File.Delete(oldPath);
+            }
+            catch { }
+            db.Photoes.Remove(foundPhoto);
+            await db.SaveChangesAsync();
+            return RedirectToAction("Index");
         }
 
         public IActionResult Edit(int id = 0)
         {
-            if (signInManager.IsSignedIn(User))
-            {
-                PhotoModel? foundModel = db.Photoes.FirstOrDefault(x => x.Id == id);
-                if (foundModel == null)
-                {
-                    return NotFound();
-                }
-                return View(EditPhotoModel.FromPhotoModel(foundModel));
-            }
-            else
+            if (!signInManager.IsSignedIn(User))
             {
                 return RedirectToAction(controllerName: "Admin", actionName: "NoPermissions");
             }
+            PhotoModel? foundModel = db.Photoes.FirstOrDefault(x => x.Id == id);
+            if (foundModel == null)
+            {
+                return NotFound();
+            }
+            return View(EditPhotoModel.FromPhotoModel(foundModel));
         }
 
         [ValidateAntiForgeryToken]

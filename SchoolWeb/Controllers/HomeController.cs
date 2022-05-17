@@ -26,11 +26,6 @@ namespace SchoolWeb.Controllers
             return View();
         }
 
-        public IActionResult Schedule()
-        {
-            return View(info);
-        }
-
         public IActionResult Conditions()
         {
             return View();
