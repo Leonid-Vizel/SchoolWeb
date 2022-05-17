@@ -17,7 +17,7 @@
             <h4 class="text-left">Администрация</h4>
         </div>
         <div class="col-6 text-end">
-            <a asp-controller="Admin" asp-action="AddAdminisrator" class="btn btn-outline-primary">
+            <a asp-controller="Staff" asp-action="AddAdminisrator" class="btn btn-outline-primary">
                 <i class="bi bi-plus-circle-fill"></i> Добавить
             </a>
         </div>
@@ -54,8 +54,8 @@ else
                 @if (isSinged)
                 {
                     <td>
-                        <a asp-controller="Admin" asp-action="EditAdminisrator" asp-route-id="@admin.Id" class="btn btn-outline-warning btn-sm"><i class="bi bi-pencil"></i></a>
-                        <a asp-controller="Admin" asp-action="DeleteAdminisrator" asp-route-id="@admin.Id" class="btn btn-outline-danger btn-sm"><i class="bi bi-trash"></i></a>
+                        <a asp-controller="Staff" asp-action="EditAdminisrator" asp-route-id="@admin.Id" class="btn btn-outline-warning btn-sm"><i class="bi bi-pencil"></i></a>
+                        <a asp-controller="Staff" asp-action="DeleteAdminisrator" asp-route-id="@admin.Id" class="btn btn-outline-danger btn-sm"><i class="bi bi-trash"></i></a>
                     </td>
                 }
             </tr>
@@ -71,7 +71,7 @@ else
             <h4 class="text-left">Педагогический состав</h4>
         </div>
         <div class="col-6 text-end">
-            <a asp-controller="Admin" asp-action="AddTeacher" class="btn btn-outline-primary">
+            <a asp-controller="Staff" asp-action="AddTeacher" class="btn btn-outline-primary">
                 <i class="bi bi-plus-circle-fill"></i> Добавить
             </a>
         </div>
@@ -110,8 +110,8 @@ else
                 @if (isSinged)
                 {
                     <td>
-                        <a asp-controller="Admin" asp-action="EditTeacher" asp-route-id="@staff.Id" class="btn btn-outline-warning btn-sm"><i class="bi bi-pencil"></i></a>
-                        <a asp-controller="Admin" asp-action="DeleteTeacher" asp-route-id="@staff.Id" class="btn btn-outline-danger btn-sm"><i class="bi bi-trash"></i></a>
+                        <a asp-controller="Staff" asp-action="EditTeacher" asp-route-id="@staff.Id" class="btn btn-outline-warning btn-sm"><i class="bi bi-pencil"></i></a>
+                        <a asp-controller="Staff" asp-action="DeleteTeacher" asp-route-id="@staff.Id" class="btn btn-outline-danger btn-sm"><i class="bi bi-trash"></i></a>
                     </td>
                 }
             </tr>

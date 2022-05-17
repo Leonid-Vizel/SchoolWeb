@@ -41,15 +41,6 @@ namespace SchoolWeb.Controllers
             return View();
         }
 
-        public IActionResult Staff()
-        {
-            return View(new TotalStaff()
-            {
-                Staff = db.SchoolStaff,
-                Administration = db.SchoolAdministration
-            });
-        }
-
         public IActionResult HealthAndFood()
         {
             return View();
