@@ -7,7 +7,7 @@
 <script>
     function SetClipboard()
     {
-        navigator.clipboard.writeText('@Model')
+        navigator.clipboard.writeText('@Html.Raw(@Model)')
     }
 </script>
 
