@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using SchoolWeb.Attributes;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace SchoolWeb.Models
@@ -28,24 +29,28 @@ namespace SchoolWeb.Models
 
         [Required(ErrorMessage = "Значение этого поля должно быть обязательной указано")]
         [DisplayName("Начало")]
+        [DateLessThan("Holiday1End", ErrorMessage = "Начало каникул должно быть раньше конца")]
         public DateTime Holiday1Start { get; set; }
         [Required(ErrorMessage = "Значение этого поля должно быть обязательной указано")]
         [DisplayName("Конец")]
         public DateTime Holiday1End { get; set; }
         [Required(ErrorMessage = "Значение этого поля должно быть обязательной указано")]
         [DisplayName("Начало")]
+        [DateLessThan("Holiday2End", ErrorMessage = "Начало каникул должно быть раньше конца")]
         public DateTime Holiday2Start { get; set; }
         [Required(ErrorMessage = "Значение этого поля должно быть обязательной указано")]
         [DisplayName("Конец")]
         public DateTime Holiday2End { get; set; }
         [Required(ErrorMessage = "Значение этого поля должно быть обязательной указано")]
         [DisplayName("Начало")]
+        [DateLessThan("Holiday3End", ErrorMessage = "Начало каникул должно быть раньше конца")]
         public DateTime Holiday3Start { get; set; }
         [Required(ErrorMessage = "Значение этого поля должно быть обязательной указано")]
         [DisplayName("Конец")]
         public DateTime Holiday3End { get; set; }
         [Required(ErrorMessage = "Значение этого поля должно быть обязательной указано")]
         [DisplayName("Начало")]
+        [DateLessThan("Holiday4End", ErrorMessage = "Начало каникул должно быть раньше конца")]
         public DateTime Holiday4Start { get; set; }
         [Required(ErrorMessage = "Значение этого поля должно быть обязательной указано")]
         [DisplayName("Конец")]
@@ -53,24 +58,28 @@ namespace SchoolWeb.Models
 
         [Required(ErrorMessage = "Значение этого поля должно быть обязательной указано")]
         [DisplayName("Начало")]
+        [DateLessThan("Quarter1End", ErrorMessage = "Начало четверти должно быть раньше конца")]
         public DateTime Quarter1Start { get; set; }
         [Required(ErrorMessage = "Значение этого поля должно быть обязательной указано")]
         [DisplayName("Конец")]
         public DateTime Quarter1End { get; set; }
         [Required(ErrorMessage = "Значение этого поля должно быть обязательной указано")]
         [DisplayName("Начало")]
+        [DateLessThan("Quarter2End", ErrorMessage = "Начало четверти должно быть раньше конца")]
         public DateTime Quarter2Start { get; set; }
         [Required(ErrorMessage = "Значение этого поля должно быть обязательной указано")]
         [DisplayName("Конец")]
         public DateTime Quarter2End { get; set; }
         [Required(ErrorMessage = "Значение этого поля должно быть обязательной указано")]
         [DisplayName("Начало")]
+        [DateLessThan("Quarter3End", ErrorMessage = "Начало четверти должно быть раньше конца")]
         public DateTime Quarter3Start { get; set; }
         [Required(ErrorMessage = "Значение этого поля должно быть обязательной указано")]
         [DisplayName("Конец")]
         public DateTime Quarter3End { get; set; }
         [Required(ErrorMessage = "Значение этого поля должно быть обязательной указано")]
         [DisplayName("Начало")]
+        [DateLessThan("Quarter4End", ErrorMessage = "Начало четверти должно быть раньше конца")]
         public DateTime Quarter4Start { get; set; }
         [Required(ErrorMessage = "Значение этого поля должно быть обязательной указано")]
         [DisplayName("Конец")]
