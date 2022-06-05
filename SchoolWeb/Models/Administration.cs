@@ -20,11 +20,12 @@ namespace SchoolWeb.Models
         [DisplayName("Квалификационная категория:")]
         public string Category { get; set; }
         [Required(ErrorMessage = "Номер телефона сотрудника должен быть обязательно указан")]
+        [Phone(ErrorMessage = "Неверный формат номера телефона")]
         [DisplayName("Номер телефона:")]
         public string Phone { get; set; }
         [Required(ErrorMessage = "Электронная почта сотрудника должна быть обязательно указана")]
         [DisplayName("Электронная почта:")]
-        [DataType(DataType.EmailAddress,ErrorMessage = "Значение не является валидным адресом электронной почты")]
+        [EmailAddress(ErrorMessage = "Значение не является валидным адресом электронной почты")]
         public string Email { get; set; }
     }
 }
